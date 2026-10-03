@@ -5,9 +5,9 @@ export const REUNION = {
   name: 'Tybee Tides',
   title: 'The Family Reunion on Tybee Island',
   location: 'Tybee Island, Georgia',
-  startDate: '2027-06-18',
-  endDate: '2027-06-22',
-  dateLabel: 'June 18 – 22, 2027',
+  startDate: '2027-05-10',
+  endDate: '2027-05-23',
+  dateLabel: 'May 10 – 13, 2027',
   nearestAirport: 'Savannah/Hilton Head International (SAV)',
 }
 
@@ -31,10 +31,11 @@ export type FamilyGroup = {
 }
 
 export const familyGroups: FamilyGroup[] = [
-  { id: 1, groupName: 'The Smith Branch', homeBase: 'Atlanta, GA', color: '#ff7a59', members: 14 },
-  { id: 2, groupName: 'The Davis Branch', homeBase: 'Charlotte, NC', color: '#1f9e9a', members: 11 },
-  { id: 3, groupName: 'The West Coast Crew', homeBase: 'Oakland, CA', color: '#f2b544', members: 8 },
-  { id: 4, groupName: 'The Lowcountry Locals', homeBase: 'Savannah, GA', color: '#3d6fb6', members: 9 },
+  { id: 1, groupName: 'The Hambelton Homestead', homeBase: 'Boise, ID', color: '#ff7a59', members: 2 },
+  { id: 2, groupName: 'The Badger Bourogh', homeBase: 'Boise, ID', color: '#1f9e9a', members: 8 },
+  { id: 3, groupName: 'The Treasure Valley Hunts', homeBase: 'Boise, ID', color: '#f2b544', members: 8 },
+  { id: 4, groupName: 'The Marevelous McBrides', homeBase: 'Richmond, VA', color: '#3d6fb6', members: 3 },
+  { id: 5, groupName: 'The Wortham Wing', homeBase: 'Charlotte, NC', color: '#903db6', members: 9 },
 ]
 
 export type Activity = {
