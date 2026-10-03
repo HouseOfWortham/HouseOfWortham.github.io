@@ -59,7 +59,7 @@ function Hero() {
           className="animate-rise mt-6 max-w-3xl font-display text-5xl leading-[1.02] font-semibold tracking-tight drop-shadow-sm sm:text-7xl"
           style={{ animationDelay: '120ms' }}
         >
-          Salt air, sweet tea & <em className="text-sun">the whole family</em> together.
+          Salt air, good vibes & <em className="text-sun">the whole family</em> together.
         </h1>
         <p
           className="animate-rise mt-6 max-w-xl text-lg text-white/90 sm:text-xl"
