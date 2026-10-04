@@ -11,8 +11,8 @@ export const REUNION = {
   nearestAirport: 'Savannah/Hilton Head International (SAV)',
 }
 
-export function cdn(path: string, width: number) {
-  return `/.netlify/images?url=${encodeURIComponent(path)}&w=${width}&fm=webp`
+export function publicAsset(path: string) {
+  return `${import.meta.env.BASE_URL}${path.replace(/^\/+/, '')}`
 }
 
 export const IMAGES = {

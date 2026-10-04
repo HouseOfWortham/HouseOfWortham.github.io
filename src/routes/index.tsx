@@ -9,7 +9,7 @@ import {
   REUNION,
   activities,
   averageRating,
-  cdn,
+  publicAsset,
   familyGroups,
 } from '@/data/fixtures'
 
@@ -46,7 +46,7 @@ function Hero() {
       <div
         ref={bgRef}
         className="absolute inset-0 scale-110 bg-cover bg-center will-change-transform"
-        style={{ backgroundImage: `url(${cdn(IMAGES.hero, 2000)})` }}
+        style={{ backgroundImage: `url(${publicAsset(IMAGES.hero)})` }}
       />
       <div className="absolute inset-0 bg-gradient-to-b from-sea/60 via-sea/25 to-sea/70" />
 
@@ -227,7 +227,7 @@ function ActivityPreview() {
             <article className="group overflow-hidden rounded-3xl bg-white shadow-[0_10px_40px_-20px_rgba(11,59,79,0.35)]">
               <div className="relative aspect-[4/3] overflow-hidden">
                 <img
-                  src={cdn(a.image, 700)}
+                  src={publicAsset(a.image)}
                   alt={a.name}
                   loading="lazy"
                   className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
@@ -264,10 +264,10 @@ function PhotoWall() {
         </Reveal>
         <div className="mt-12 grid auto-rows-[180px] grid-cols-2 gap-4 md:grid-cols-4">
           <Reveal className="col-span-2 row-span-2">
-            <img src={cdn(IMAGES.family, 900)} alt="Family on the beach at sunset" loading="lazy" className="h-full w-full rounded-3xl object-cover" />
+            <img src={publicAsset(IMAGES.family)} alt="Family on the beach at sunset" loading="lazy" className="h-full w-full rounded-3xl object-cover" />
           </Reveal>
           <Reveal delay={100}>
-            <img src={cdn(IMAGES.lighthouse, 500)} alt="Tybee Island lighthouse" loading="lazy" className="h-full w-full rounded-3xl object-cover" />
+            <img src={publicAsset(IMAGES.lighthouse)} alt="Tybee Island lighthouse" loading="lazy" className="h-full w-full rounded-3xl object-cover" />
           </Reveal>
           <Reveal delay={200}>
             <PhotoPlaceholder label="Grandma’s 80th, 2024" />
@@ -276,7 +276,7 @@ function PhotoWall() {
             <PhotoPlaceholder label="Cousins’ fishing trip" />
           </Reveal>
           <Reveal delay={250}>
-            <img src={cdn(IMAGES.dolphins, 500)} alt="Dolphins in the marsh" loading="lazy" className="h-full w-full rounded-3xl object-cover" />
+            <img src={publicAsset(IMAGES.dolphins)} alt="Dolphins in the marsh" loading="lazy" className="h-full w-full rounded-3xl object-cover" />
           </Reveal>
         </div>
       </div>

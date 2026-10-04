@@ -4,7 +4,7 @@ import { CalendarDays, Check, Star, Users } from 'lucide-react'
 import { Reveal } from '@/components/Reveal'
 import { StarRating } from '@/components/StarRating'
 import { PageHero } from '@/components/PageHero'
-import { activities, averageRating, cdn } from '@/data/fixtures'
+import { activities, averageRating, publicAsset } from '@/data/fixtures'
 
 export const Route = createFileRoute('/vote')({
   head: () => ({ meta: [{ title: 'Vote on Activities · Tybee Tides' }] }),
@@ -110,7 +110,7 @@ function VotePage() {
               <article className="group flex h-full flex-col overflow-hidden rounded-3xl bg-white shadow-[0_10px_40px_-20px_rgba(11,59,79,0.35)] sm:flex-row">
                 <div className="relative h-48 shrink-0 overflow-hidden sm:h-auto sm:w-48">
                   <img
-                    src={cdn(a.image, 500)}
+                    src={publicAsset(a.image)}
                     alt={a.name}
                     loading="lazy"
                     className="h-full w-full object-cover transition duration-700 group-hover:scale-105"

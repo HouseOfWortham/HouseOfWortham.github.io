@@ -1,8 +1,8 @@
 # Tybee Tides — Product Roadmap
 
-A family reunion hub for Tybee Island, GA: sign in with Google, pick your family branch, confirm travel, vote on activities, and browse a shared travel hub.
+A family reunion hub for Tybee Island, GA: browse reunion information, vote on activities, and find travel details.
 
-Data is stored in **Netlify Database** (managed Postgres, via Drizzle ORM) and sign-in uses **Netlify Identity** with the Google OAuth provider. Both run on the same platform that hosts the site, so there's one place to deploy, one set of environment settings, and no separate service to manage. The table design below follows the original schema guidelines (`profiles`, `family_groups`, `travel_details`, `activities`, `votes`).
+The site is statically prerendered and hosted on GitHub Pages. GitHub Pages does not provide server functions, a database, or authentication. The current UI uses fixture data, and votes are saved only in each visitor's browser. Choose an external backend before implementing shared data or sign-in. The table design below is a possible future model (`profiles`, `family_groups`, `travel_details`, `activities`, `votes`), not a platform commitment.
 
 ## Milestone 1 — Product surface ✅
 - Coastal-themed landing page: parallax hero, countdown, how-it-works, family branches, crowd-favorite activities, photo wall with placeholders, CTA.
@@ -10,15 +10,15 @@ Data is stored in **Netlify Database** (managed Postgres, via Drizzle ORM) and s
 - Travel hub & FAQ: confirmed/pending stats, per-branch flight and lodging cards, map and directions, FAQ accordion.
 - All sample data lives in `src/data/fixtures.ts`. Votes are kept in `localStorage` for now.
 
-## Milestone 2 — Data model
-- `db/schema.ts` with Drizzle tables: `family_groups`, `profiles` (keyed by Identity user id), `travel_details` (status: confirmed / pending / not_booked), `activities`, `votes` (unique per user + activity, rating CHECK 1–5).
-- Seed family groups, group travel defaults, and activities from the current fixtures.
-- Replace fixture reads with TanStack Start server functions.
+## Milestone 2 — Shared data approach
+- Decide whether shared voting, travel confirmations, and profiles are needed for this reunion.
+- If so, choose an external backend that supports database access and server-side authorization; GitHub Pages cannot run server functions.
+- Only then define the schema and move data out of `src/data/fixtures.ts`.
 
 ## Milestone 3 — Google sign-in & protected routes
-- Enable Netlify Identity with the Google provider; wire the header and hero "Sign in with Google" buttons.
-- Route guards: `/vote`, `/faq`, `/profile`, `/welcome` require a session; landing stays public.
-- Server functions verify the user on every write.
+- Choose an identity provider and backend that can verify users on every write.
+- Wire the header and hero "Sign in with Google" buttons only after that choice.
+- Route guards cannot secure data by themselves; enforce authorization on the backend.
 
 ## Milestone 4 — Onboarding flow
 - First-login interception → `/welcome`: choose your Family Group.
@@ -30,7 +30,7 @@ Data is stored in **Netlify Database** (managed Postgres, via Drizzle ORM) and s
 - Return live averages and distributions from SQL aggregates; light polling or refetch-on-focus so the numbers stay current.
 
 ## Milestone 6 — Profile & Settings
-- Split layout. Section A: avatar (synced from Google, or upload to Netlify Blobs), first/last name, family group. Section B: email/SMS notification toggles, sign-out, and account deletion.
+- Split layout. Section A: avatar (synced from Google, or upload to a chosen storage service), first/last name, family group. Section B: email/SMS notification toggles, sign-out, and account deletion.
 
 ## Milestone 7 — Polish
-- Family photo uploads to the album (Netlify Blobs + Image CDN), an admin view for organizers to edit activities and group defaults, and accessibility and performance passes.
+- Family photo uploads to the album, an admin view for organizers to edit activities and group defaults, and accessibility and performance passes.
