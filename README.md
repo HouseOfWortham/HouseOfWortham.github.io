@@ -42,7 +42,12 @@ These are browser-visible public project credentials; never use the `service_rol
 
 In Supabase **Authentication → URL Configuration**, set the Site URL to the deployed site URL and allow the local URL `http://localhost:3000/**`. For a project site, the deployed URL includes the repository path, such as `https://USERNAME.github.io/Family-Reunion-2027/`. In Google Cloud, the authorized redirect URI remains Supabase's callback URL ending in `/auth/v1/callback`; it is not the GitHub Pages URL.
 
-GitHub Pages is static hosting and cannot run server functions. Sign-in does not by itself persist shared votes or secure database access; those require database tables and Row Level Security policies in Supabase. Activity votes currently remain in each visitor's browser.
+### Member profiles and travel plans
+To enable family onboarding and saved profiles, open the Supabase **SQL Editor**, paste and run [`supabase/migrations/20261004163000_member_profiles_and_travel.sql`](./supabase/migrations/20261004163000_member_profiles_and_travel.sql). It creates the five family branches, a profile and travel-details table, and Row Level Security policies that allow signed-in users to read or update only their own details.
+
+After signing in, members without a saved profile or travel plan are sent to `/profile` to choose a branch and enter their details. They can return from the Profile link to edit them. The Google profile photo is used by default; the form also allows an optional image URL, not a file upload.
+
+GitHub Pages is static hosting and cannot run server functions. Profile/travel records are stored in Supabase; activity votes currently remain in each visitor's browser. Shared voting and access to other members' travel details are not enabled by this profile setup.
 
 ## Roadmap
-See [PLAN.md](./PLAN.md) for the roadmap. The next milestone is to decide how shared data and sign-in should work before adding features that require a backend.
+See [PLAN.md](./PLAN.md) for the roadmap. Next up is shared live voting, after deciding whether and how to share members' travel details in the travel hub.

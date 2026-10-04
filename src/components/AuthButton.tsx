@@ -1,3 +1,4 @@
+import { Link } from '@tanstack/react-router'
 import { GoogleG } from '@/components/GoogleG'
 import { useAuth } from '@/components/AuthProvider'
 
@@ -5,14 +6,19 @@ const buttonClassName =
   'ml-2 inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-semibold text-sea shadow transition hover:-translate-y-0.5 hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-70'
 
 export function AuthButton({ className = buttonClassName }: { className?: string }) {
-  const { session, isConfigured, isBusy, error, signInWithGoogle, signOut } = useAuth()
+  const { session, profile, isConfigured, isBusy, error, signInWithGoogle, signOut } = useAuth()
 
   return (
     <div>
       {session ? (
-        <button type="button" onClick={signOut} disabled={isBusy} className={className}>
-          {isBusy ? 'Signing out…' : 'Sign out'}
-        </button>
+        <div className="flex flex-wrap items-center gap-2">
+          <Link to="/profile" className={className}>
+            {profile?.full_name || session.user.user_metadata.full_name || 'Profile'}
+          </Link>
+          <button type="button" onClick={signOut} disabled={isBusy} className={className}>
+            {isBusy ? 'Signing out…' : 'Sign out'}
+          </button>
+        </div>
       ) : (
         <button
           type="button"
