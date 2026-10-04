@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react'
 import { ArrowRight, Camera, CheckCircle2, Plane, Star, Users, Vote } from 'lucide-react'
 import { Reveal } from '@/components/Reveal'
 import { Waves } from '@/components/Waves'
-import { GoogleG } from '@/components/SiteHeader'
+import { AuthButton } from '@/components/AuthButton'
 import {
   IMAGES,
   REUNION,
@@ -69,12 +69,7 @@ function Hero() {
           and help pick what we do once everyone’s on the sand.
         </p>
         <div className="animate-rise mt-9 flex flex-wrap gap-3" style={{ animationDelay: '360ms' }}>
-          <button
-            type="button"
-            className="inline-flex items-center gap-3 rounded-full bg-white px-6 py-3.5 font-semibold text-sea shadow-xl transition hover:-translate-y-0.5 hover:shadow-2xl"
-          >
-            <GoogleG /> Continue with Google
-          </button>
+          <AuthButton className="inline-flex items-center gap-3 rounded-full bg-white px-6 py-3.5 font-semibold text-sea shadow-xl transition hover:-translate-y-0.5 hover:shadow-2xl disabled:cursor-not-allowed disabled:opacity-70" />
           <Link
             to="/vote"
             className="inline-flex items-center gap-2 rounded-full bg-coral px-6 py-3.5 font-semibold text-white shadow-xl transition hover:-translate-y-0.5 hover:bg-[#ff6a45]"
@@ -305,6 +300,7 @@ function ClosingCta() {
             The travel hub shows where every branch is staying and when they land, so carpools come together on their own.
           </p>
           <div className="relative mt-8 flex flex-wrap justify-center gap-3">
+            <AuthButton />
             <Link
               to="/faq"
               className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3.5 font-semibold text-sea transition hover:-translate-y-0.5"

@@ -3,6 +3,7 @@ import { HeadContent, Scripts, createRootRoute } from '@tanstack/react-router'
 
 import { SiteHeader } from '@/components/SiteHeader'
 import { SiteFooter } from '@/components/SiteFooter'
+import { AuthProvider } from '@/components/AuthProvider'
 import '../styles.css'
 
 const siteName = 'Tybee Tides — Family Reunion on Tybee Island, GA'
@@ -61,9 +62,11 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body>
-        <SiteHeader />
-        <main>{children}</main>
-        <SiteFooter />
+        <AuthProvider>
+          <SiteHeader />
+          <main>{children}</main>
+          <SiteFooter />
+        </AuthProvider>
         <Scripts />
       </body>
     </html>
