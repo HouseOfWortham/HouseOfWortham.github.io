@@ -1,0 +1,21 @@
+{
+	"dbConnectionString": "postgres://postgres@localhost:58597/postgres",
+	"geolocation": {
+		"data": {
+			"city": "Pineville",
+			"country": {
+				"code": "US",
+				"name": "United States"
+			},
+			"subdivision": {
+				"code": "NC",
+				"name": "North Carolina"
+			},
+			"timezone": "America/New_York",
+			"latitude": 35.0832,
+			"longitude": -80.8923,
+			"postalCode": "28134"
+		},
+		"timestamp": 1791125037435
+	}
+}
