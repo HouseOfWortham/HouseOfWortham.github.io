@@ -18,6 +18,7 @@ export function publicAsset(path: string) {
 export const IMAGES = {
   hero: '/img/hero.png',
   lighthouse: '/img/lighthouse.png',
+  logo: '/img/Tybee_LightHouse.png',
   family: '/img/family.png',
   dolphins: '/img/dolphins.png',
 }

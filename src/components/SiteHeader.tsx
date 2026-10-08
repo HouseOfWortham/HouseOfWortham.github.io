@@ -2,7 +2,7 @@ import { Link } from '@tanstack/react-router'
 import { useEffect, useState } from 'react'
 import { Menu, X } from 'lucide-react'
 import { AuthButton } from '@/components/AuthButton'
-import { REUNION } from '@/data/fixtures'
+import { IMAGES, REUNION, publicAsset } from '@/data/fixtures'
 
 const links = [
   { to: '/', label: 'Home' },
@@ -29,7 +29,11 @@ export function SiteHeader() {
     >
       <div className="mx-auto flex max-w-6xl items-center justify-between px-5 text-white">
         <Link to="/" className="flex items-center gap-2" onClick={() => setOpen(false)}>
-          <Lighthouse />
+          <img
+            src={publicAsset(IMAGES.logo)}
+            alt="Tybee Island lighthouse logo"
+            className="h-8 w-8 rounded-md object-cover shadow-sm"
+          />
           <span className="font-display text-2xl font-semibold tracking-tight">{REUNION.name}</span>
         </Link>
 
@@ -77,17 +81,5 @@ export function SiteHeader() {
         </nav>
       )}
     </header>
-  )
-}
-
-function Lighthouse() {
-  return (
-    <svg width="28" height="28" viewBox="0 0 32 32" aria-hidden className="animate-bob">
-      <path d="M13 6h6l2 22H11z" fill="#fff" />
-      <path d="M12.2 14h7.6l.5 5h-8.6zM11.5 22h9l.4 3h-9.8z" fill="#0b3b4f" />
-      <path d="M12 4h8v3h-8z" fill="#ff7a59" />
-      <path d="M16 1l4 3h-8z" fill="#0b3b4f" />
-      <path d="M20 5l9-3v6zM12 5L3 2v6z" fill="#f2b544" opacity=".8" />
-    </svg>
   )
 }
