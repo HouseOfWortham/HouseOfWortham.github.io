@@ -7,10 +7,12 @@ export function StarRating({
   value,
   onChange,
   name,
+  disabled = false,
 }: {
   value: number
   onChange: (rating: number) => void
   name: string
+  disabled?: boolean
 }) {
   const [hover, setHover] = useState(0)
   const [popped, setPopped] = useState(0)
@@ -31,6 +33,7 @@ export function StarRating({
             role="radio"
             aria-checked={value === n}
             aria-label={`${n} star${n > 1 ? 's' : ''} — ${labels[n - 1]}`}
+            disabled={disabled}
             onMouseEnter={() => setHover(n)}
             onFocus={() => setHover(n)}
             onBlur={() => setHover(0)}
@@ -38,7 +41,7 @@ export function StarRating({
               onChange(n)
               setPopped(n)
             }}
-            className="rounded-md p-0.5 transition-transform hover:scale-110 focus-visible:outline-2 focus-visible:outline-tide"
+            className="rounded-md p-0.5 transition-transform hover:scale-110 focus-visible:outline-2 focus-visible:outline-tide disabled:cursor-wait disabled:opacity-60"
           >
             <Star
               key={popped === n ? `pop-${value}` : n}

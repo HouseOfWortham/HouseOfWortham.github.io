@@ -27,6 +27,13 @@ type FamilyGroupRow = {
   color: string
 }
 
+type ActivityVoteRow = {
+  user_id: string
+  activity_id: number
+  rating: number
+  updated_at: string
+}
+
 type Table<Row, Insert, Update = Partial<Insert>> = {
   Row: Row
   Insert: Insert
@@ -46,9 +53,18 @@ type Database = {
         Omit<TravelDetailsRow, 'updated_at'> & { updated_at?: string }
       >
       family_groups: Table<FamilyGroupRow, FamilyGroupRow>
+      activity_votes: Table<
+        ActivityVoteRow,
+        Omit<ActivityVoteRow, 'updated_at'> & { updated_at?: string }
+      >
     }
     Views: Record<string, never>
-    Functions: Record<string, never>
+    Functions: {
+      get_activity_vote_counts: {
+        Args: Record<string, never>
+        Returns: { activity_id: number; rating: number; vote_count: number }[]
+      }
+    }
     Enums: Record<string, never>
     CompositeTypes: Record<string, never>
   }

@@ -45,8 +45,6 @@ export type Activity = {
   description: string
   image: string
   when: string
-  // Seed community ratings: counts for 1..5 stars.
-  ratingCounts: [number, number, number, number, number]
 }
 
 export const activities: Activity[] = [
@@ -56,7 +54,6 @@ export const activities: Activity[] = [
     description: 'All 178 steps of the Tybee Light Station, then coffee and biscuits on the keeper’s porch.',
     image: IMAGES.lighthouse,
     when: 'Saturday morning',
-    ratingCounts: [1, 2, 5, 11, 9],
   },
   {
     id: 2,
@@ -64,7 +61,6 @@ export const activities: Activity[] = [
     description: 'A 90-minute boat cruise through the salt marsh — kids almost always spot a pod.',
     image: IMAGES.dolphins,
     when: 'Friday afternoon',
-    ratingCounts: [0, 1, 3, 9, 16],
   },
   {
     id: 3,
@@ -72,7 +68,6 @@ export const activities: Activity[] = [
     description: 'Shrimp, corn, sausage and potatoes poured on the table, with a sunset at our backs.',
     image: IMAGES.family,
     when: 'Saturday evening',
-    ratingCounts: [0, 0, 2, 6, 22],
   },
   {
     id: 4,
@@ -80,7 +75,6 @@ export const activities: Activity[] = [
     description: 'Branch vs. branch. Buckets provided, judging by the grandparents. Bragging rights forever.',
     image: IMAGES.hero,
     when: 'Sunday midday',
-    ratingCounts: [2, 3, 7, 8, 6],
   },
   {
     id: 5,
@@ -88,7 +82,6 @@ export const activities: Activity[] = [
     description: 'Forsyth Park, River Street pralines, and a trolley through the squares — 25 minutes away.',
     image: IMAGES.hero,
     when: 'Monday',
-    ratingCounts: [3, 4, 8, 6, 4],
   },
   {
     id: 6,
@@ -96,7 +89,6 @@ export const activities: Activity[] = [
     description: 'Songs, skits, and the stories the elders only tell once a year. Bring your best.',
     image: IMAGES.family,
     when: 'Sunday night',
-    ratingCounts: [1, 1, 4, 10, 12],
   },
 ]
 

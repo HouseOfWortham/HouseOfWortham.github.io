@@ -2,18 +2,18 @@
 
 A family reunion hub for Tybee Island, GA: browse reunion information, vote on activities, and find travel details.
 
-The site is statically prerendered and hosted on GitHub Pages. Supabase provides Google sign-in and per-user profile/travel storage; GitHub Pages itself does not provide server functions or a database. Activity votes still use fixtures and each visitor's `localStorage`.
+The site is statically prerendered and hosted on GitHub Pages. Supabase provides Google sign-in, per-user profile/travel storage, and shared activity votes; GitHub Pages itself does not provide server functions or a database.
 
 ## Milestone 1 — Product surface ✅
 - Coastal-themed landing page: parallax hero, countdown, how-it-works, family branches, crowd-favorite activities, photo wall with placeholders, CTA.
 - Interactive voting page: 1–5 star ratings, live family averages and distributions, sorting, progress bar.
 - Travel hub & FAQ: confirmed/pending stats, per-branch flight and lodging cards, map and directions, FAQ accordion.
-- All sample data lives in `src/data/fixtures.ts`. Votes are kept in `localStorage` for now.
+- Activity descriptions and display content live in `src/data/fixtures.ts`; vote counts are loaded from Supabase.
 
 ## Milestone 2 — Member data model ✅
 - Supabase tables for family groups, member profiles, and per-user travel details are defined in `supabase/migrations/`.
 - Row Level Security lets authenticated users read and edit only their own profile and travel rows.
-- Activity votes remain local until a shared-voting policy is decided.
+- Shared activity votes were added in Milestone 5; each authenticated user's ratings are private and shared results are aggregate-only.
 
 ## Milestone 3 — Google sign-in ✅
 - Supabase Google OAuth is wired to the header and landing-page buttons.
@@ -26,9 +26,9 @@ The site is statically prerendered and hosted on GitHub Pages. Supabase provides
 - Saved details can be reviewed and edited on the profile page.
 - The FAQ travel hub still displays fixtures; showing shared member details requires an explicit privacy decision and a suitable read policy.
 
-## Milestone 5 — Live voting
-- Save votes with an upsert on (user_id, activity_id) the moment a star is tapped.
-- Return live averages and distributions from SQL aggregates; light polling or refetch-on-focus so the numbers stay current.
+## Milestone 5 — Live voting ✅
+- [x] Save votes with an upsert on (user_id, activity_id) the moment a star is tapped.
+- [x] Return live averages and distributions from SQL aggregates; light polling or refetch-on-focus so the numbers stay current.
 
 ## Milestone 6 — Profile & Settings
 - Profile page shows the member's name, email, family group, and Google or custom photo URL; name, branch, and travel details are editable.

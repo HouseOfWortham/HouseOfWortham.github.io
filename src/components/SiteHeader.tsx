@@ -32,7 +32,7 @@ export function SiteHeader() {
           <img
             src={publicAsset(IMAGES.logo)}
             alt="Tybee Island lighthouse logo"
-            className="h-8 w-8 rounded-md object-cover shadow-sm"
+            className="h-10 w-8 rounded-md object-cover shadow-sm"
           />
           <span className="font-display text-2xl font-semibold tracking-tight">{REUNION.name}</span>
         </Link>

@@ -7,7 +7,7 @@ A web app for our family reunion on Tybee Island, Georgia (June 18–22, 2027). 
 - **Activity voting** (`/vote`): rate each activity from 1 to 5 stars and watch the family average update right away.
 - **Travel hub & FAQ** (`/faq`): arrivals and lodging for each branch, booking progress, a map with directions, and FAQs.
 
-The current screens use sample data from `src/data/fixtures.ts`. Activity votes are saved in the current visitor's browser with `localStorage`.
+The screens use sample content from `src/data/fixtures.ts`. Activity votes and family rating totals are stored in Supabase and shared across visitors.
 
 ## Tech
 TanStack Start (React 19, file-based routing, statically prerendered), Vite 7, Tailwind CSS 4, and lucide-react. Images are served from `public/img`.
@@ -47,7 +47,12 @@ To enable family onboarding and saved profiles, open the Supabase **SQL Editor**
 
 After signing in, members without a saved profile or travel plan are sent to `/profile` to choose a branch and enter their details. They can return from the Profile link to edit them. The Google profile photo is used by default; the form also allows an optional image URL, not a file upload.
 
-GitHub Pages is static hosting and cannot run server functions. Profile/travel records are stored in Supabase; activity votes currently remain in each visitor's browser. Shared voting and access to other members' travel details are not enabled by this profile setup.
+GitHub Pages is static hosting and cannot run server functions. Profile/travel records and activity votes are stored in Supabase. Other members' travel details are not exposed by the profile setup.
+
+### Shared activity voting
+After applying the member profile migration, run [`supabase/migrations/20261008150700_shared_activity_voting.sql`](./supabase/migrations/20261008150700_shared_activity_voting.sql) in the Supabase SQL Editor. Members must sign in to submit or change their own 1–5 star ratings. Only each member's own vote rows are readable directly; a database function returns grouped counts for the shared averages without exposing individual votes. The app refreshes those counts on page focus and every 30 seconds.
+
+The migration currently allows activity IDs 1–6, matching the six entries in `src/data/fixtures.ts`. If activities are added or IDs change, update the activity ID check constraint in a follow-up migration.
 
 ## Roadmap
-See [PLAN.md](./PLAN.md) for the roadmap. Next up is shared live voting, after deciding whether and how to share members' travel details in the travel hub.
+See [PLAN.md](./PLAN.md) for the roadmap. Shared live voting is implemented; the next milestone is profile and settings polish.

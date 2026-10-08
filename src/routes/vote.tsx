@@ -4,31 +4,26 @@ import { CalendarDays, Check, Star, Users } from 'lucide-react'
 import { Reveal } from '@/components/Reveal'
 import { StarRating } from '@/components/StarRating'
 import { PageHero } from '@/components/PageHero'
+import { AuthButton } from '@/components/AuthButton'
+import { useAuth } from '@/components/AuthProvider'
 import { activities, averageRating, publicAsset } from '@/data/fixtures'
+import { saveActivityVote } from '@/lib/activityVotes'
+import { useActivityVotes } from '@/hooks/useActivityVotes'
 
 export const Route = createFileRoute('/vote')({
   head: () => ({ meta: [{ title: 'Vote on Activities · Tybee Tides' }] }),
   component: VotePage,
 })
 
-// Until accounts and the votes table land, the visitor's own ratings are kept
-// in localStorage and blended with the seed community counts.
-const STORAGE_KEY = 'tybee-tides:my-votes'
-
 type SortKey = 'popular' | 'mine' | 'schedule'
 
 function VotePage() {
-  const [myVotes, setMyVotes] = useState<Record<number, number>>({})
+  const { session, isConfigured } = useAuth()
+  const { counts: voteCounts, myVotes, loading, error, refresh } = useActivityVotes(session?.user.id ?? null)
   const [savedId, setSavedId] = useState<number | null>(null)
+  const [savingId, setSavingId] = useState<number | null>(null)
+  const [voteError, setVoteError] = useState<string | null>(null)
   const [sort, setSort] = useState<SortKey>('popular')
-
-  useEffect(() => {
-    try {
-      setMyVotes(JSON.parse(localStorage.getItem(STORAGE_KEY) ?? '{}'))
-    } catch {
-      /* ignore malformed storage */
-    }
-  }, [])
 
   useEffect(() => {
     if (savedId === null) return
@@ -36,25 +31,32 @@ function VotePage() {
     return () => clearTimeout(t)
   }, [savedId])
 
-  const vote = (id: number, rating: number) => {
-    const next = { ...myVotes, [id]: rating }
-    setMyVotes(next)
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(next))
-    setSavedId(id)
+  const vote = async (id: number, rating: number) => {
+    if (!session || savingId !== null) return
+    setSavingId(id)
+    setVoteError(null)
+    try {
+      await saveActivityVote(session.user.id, id, rating)
+      setSavedId(id)
+      await refresh()
+    } catch (saveError) {
+      setVoteError(saveError instanceof Error ? saveError.message : 'Could not save your vote.')
+    } finally {
+      setSavingId(null)
+    }
   }
 
   const rows = useMemo(() => {
     const withStats = activities.map((a, index) => {
-      const counts = [...a.ratingCounts]
+      const counts = [...(voteCounts[a.id] ?? [0, 0, 0, 0, 0])]
       const mine = myVotes[a.id]
-      if (mine) counts[mine - 1] += 1
       const total = counts.reduce((x, y) => x + y, 0)
       return { ...a, index, counts, total, avg: averageRating(counts), mine }
     })
     if (sort === 'popular') withStats.sort((a, b) => b.avg - a.avg)
     if (sort === 'mine') withStats.sort((a, b) => (b.mine ?? 0) - (a.mine ?? 0))
     return withStats
-  }, [myVotes, sort])
+  }, [myVotes, sort, voteCounts])
 
   const votedCount = Object.keys(myVotes).length
   const progress = (votedCount / activities.length) * 100
@@ -64,10 +66,26 @@ function VotePage() {
       <PageHero
         eyebrow="Activity voting"
         title="What should we do on the island?"
-        subtitle="Rate each idea from 1 to 5 stars. Your vote saves the moment you tap, and the family average updates right away."
+        subtitle="Rate each idea from 1 to 5 stars. Your vote is shared with the family and updates the live average."
       />
 
       <section className="mx-auto max-w-6xl px-5 pb-24">
+        {!session && (
+          <div className="mb-6 flex flex-wrap items-center justify-between gap-4 rounded-2xl bg-white p-5 shadow">
+            <p className="text-sm text-sea/75">
+              {isConfigured
+                ? 'Sign in with Google to save your ratings. Family results are shared with everyone.'
+                : 'Shared voting is unavailable until Supabase is configured.'}
+            </p>
+            <AuthButton />
+          </div>
+        )}
+        {(error || voteError) && (
+          <p role="alert" className="mb-6 rounded-2xl bg-coral/10 p-4 text-sm font-medium text-sea">
+            {voteError ?? error}
+          </p>
+        )}
+        {loading && <p role="status" className="mb-6 text-sm text-sea/65">Loading shared votes…</p>}
         <div className="sticky top-20 z-30 -mt-10 mb-10 rounded-3xl bg-white/95 p-5 shadow-[0_20px_50px_-25px_rgba(11,59,79,0.45)] backdrop-blur sm:flex sm:items-center sm:justify-between sm:gap-8">
           <div className="flex-1">
             <div className="flex items-center justify-between text-sm font-medium">
@@ -129,7 +147,12 @@ function VotePage() {
                   <p className="mt-1 text-sm leading-relaxed text-sea/70">{a.description}</p>
 
                   <div className="mt-5 flex flex-wrap items-end justify-between gap-4">
-                    <StarRating name={a.name} value={a.mine ?? 0} onChange={(r) => vote(a.id, r)} />
+                    <StarRating
+                      name={a.name}
+                      value={a.mine ?? 0}
+                      onChange={(r) => void vote(a.id, r)}
+                      disabled={!session || savingId !== null}
+                    />
                     <span
                       className={`inline-flex items-center gap-1 rounded-full bg-tide/10 px-3 py-1 text-xs font-semibold text-tide transition-opacity ${
                         savedId === a.id ? 'opacity-100' : 'opacity-0'

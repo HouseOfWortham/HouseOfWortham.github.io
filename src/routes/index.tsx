@@ -12,6 +12,7 @@ import {
   publicAsset,
   familyGroups,
 } from '@/data/fixtures'
+import { useActivityVotes } from '@/hooks/useActivityVotes'
 
 export const Route = createFileRoute('/')({
   component: Home,
@@ -200,8 +201,16 @@ function Branches() {
 }
 
 function ActivityPreview() {
+  const { counts, error } = useActivityVotes(null)
   const top = [...activities]
-    .map((a) => ({ ...a, avg: averageRating(a.ratingCounts) }))
+    .map((a) => {
+      const ratingCounts = counts[a.id] ?? []
+      return {
+        ...a,
+        avg: averageRating(ratingCounts),
+        total: ratingCounts.reduce((sum, count) => sum + count, 0),
+      }
+    })
     .sort((a, b) => b.avg - a.avg)
     .slice(0, 3)
 
@@ -235,7 +244,15 @@ function ActivityPreview() {
                 <h3 className="text-lg font-semibold">{a.name}</h3>
                 <p className="mt-1 flex items-center gap-1 text-sm text-sea/60">
                   <Star size={16} className="fill-sun text-sun" />
-                  <span className="font-semibold text-sea">{a.avg.toFixed(1)}</span> community rating
+                  {error ? (
+                    <span>Live ratings unavailable</span>
+                  ) : a.total > 0 ? (
+                    <>
+                      <span className="font-semibold text-sea">{a.avg.toFixed(1)}</span> community rating
+                    </>
+                  ) : (
+                    <span>Be the first to rate</span>
+                  )}
                 </p>
               </div>
             </article>
