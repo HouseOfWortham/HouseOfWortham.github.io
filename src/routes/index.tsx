@@ -277,7 +277,7 @@ function PhotoWall() {
     }
 
     const choosePhotos = (excludeIds: Set<string>) => {
-      const count = Math.min(6, photos.length)
+      const count = Math.min(5, photos.length)
       const unseen = photos.filter((photo) => !excludeIds.has(photo.id))
       const candidates = unseen.length >= count ? unseen : photos
       const shuffled = [...candidates]
@@ -295,7 +295,7 @@ function PhotoWall() {
 
     const interval = window.setInterval(() => {
       setDisplayedPhotos((current) => choosePhotos(new Set(current.map((photo) => photo.id))))
-    }, 5000)
+    }, 10_000)
     return () => window.clearInterval(interval)
   }, [photos])
 
@@ -334,16 +334,9 @@ function PhotoWall() {
           </p>
         )}
         {displayedPhotos.length > 0 && (
-          <div className="mt-12 grid auto-rows-[140px] grid-cols-2 gap-4 sm:auto-rows-[180px] md:grid-cols-4">
+          <div className="mt-12 grid auto-rows-[140px] grid-cols-2 gap-4 sm:auto-rows-[180px] md:grid-cols-4 lg:auto-rows-[200px]">
             {displayedPhotos.map((photo, index) => {
-              const sizeClass = [
-                'col-span-2 row-span-2',
-                '',
-                'row-span-2',
-                '',
-                '',
-                'col-span-2',
-              ][index]
+              const sizeClass = index === 0 ? 'col-span-2 row-span-2' : ''
               return (
                 <Reveal key={photo.id} delay={(index % 4) * 70} className={sizeClass}>
                   <a
@@ -369,7 +362,7 @@ function PhotoWall() {
           </div>
         )}
         {displayedPhotos.length > 0 && (
-          <p className="mt-4 text-center text-sm text-sea/60">Random photos refresh every 5 seconds</p>
+          <p className="mt-4 text-center text-sm text-sea/60">Random photos refresh every 10 seconds</p>
         )}
       </div>
     </section>

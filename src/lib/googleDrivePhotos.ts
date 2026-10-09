@@ -10,7 +10,6 @@ type DriveFile = {
   id?: string
   name?: string
   mimeType?: string
-  thumbnailLink?: string
   webViewLink?: string
 }
 
@@ -39,7 +38,7 @@ async function listFolderPhotos(
     url.searchParams.set('key', key)
     url.searchParams.set(
       'fields',
-      'nextPageToken,files(id,name,mimeType,thumbnailLink,webViewLink)',
+      'nextPageToken,files(id,name,mimeType,webViewLink)',
     )
     url.searchParams.set('pageSize', '100')
     url.searchParams.set('orderBy', 'modifiedTime desc')
@@ -58,7 +57,7 @@ async function listFolderPhotos(
       photos.push({
         id: file.id,
         name: file.name,
-        imageUrl: file.thumbnailLink ?? `https://drive.google.com/thumbnail?id=${encodeURIComponent(file.id)}&sz=w1200`,
+        imageUrl: `https://lh3.googleusercontent.com/d/${encodeURIComponent(file.id)}=s1600`,
         viewUrl: file.webViewLink ?? `https://drive.google.com/file/d/${encodeURIComponent(file.id)}/view`,
         album,
       })
