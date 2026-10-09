@@ -7,7 +7,7 @@ The site is statically prerendered and hosted on GitHub Pages. Supabase provides
 ## Milestone 1 — Product surface ✅
 - Coastal-themed landing page: parallax hero, countdown, how-it-works, family branches, crowd-favorite activities, photo wall with placeholders, CTA.
 - Interactive voting page: 1–5 star ratings, live family averages and distributions, sorting, progress bar.
-- Travel hub & FAQ: confirmed/pending stats, per-branch flight and lodging cards, map and directions, FAQ accordion.
+- Travel hub & FAQ: authenticated per-branch travel summaries, shared lodging link, map and directions, FAQ accordion.
 - Activity descriptions and display content live in `src/data/fixtures.ts`; vote counts are loaded from Supabase.
 
 ## Milestone 2 — Member data model ✅
@@ -22,9 +22,9 @@ The site is statically prerendered and hosted on GitHub Pages. Supabase provides
 
 ## Milestone 4 — Onboarding flow ✅
 - First sign-in without a saved profile or travel plan redirects to `/profile`.
-- Members choose a family branch and enter their travel and lodging details.
-- Saved details can be reviewed and edited on the profile page.
-- The FAQ travel hub still displays fixtures; showing shared member details requires an explicit privacy decision and a suitable read policy.
+- Members choose a family branch and enter their travel details; shared lodging details are shown in the travel hub.
+- Saved details can be reviewed and edited on the profile page; branch travel modes and booking status are summarized for authenticated family members.
+- Authenticated members can view group-level travel mode and booking-status counts through a restricted database aggregate; individual flight and arrival details remain private.
 
 ## Milestone 5 — Live voting ✅
 - [x] Save votes with an upsert on (user_id, activity_id) the moment a star is tapped.

@@ -1,6 +1,6 @@
 import { useEffect, useState, type FormEvent } from 'react'
 import { createFileRoute } from '@tanstack/react-router'
-import { BedDouble, Plane, Save, UserRound } from 'lucide-react'
+import { BedDouble, ExternalLink, Plane, Save, UserRound } from 'lucide-react'
 import { PageHero } from '@/components/PageHero'
 import { Reveal } from '@/components/Reveal'
 import { useAuth } from '@/components/AuthProvider'
@@ -21,8 +21,6 @@ type ProfileForm = {
   travelMode: string
   flightInfo: string
   arrival: string
-  lodgingName: string
-  lodgingAddress: string
   notes: string
 }
 
@@ -34,8 +32,6 @@ const emptyForm: ProfileForm = {
   travelMode: '',
   flightInfo: '',
   arrival: '',
-  lodgingName: '',
-  lodgingAddress: '',
   notes: '',
 }
 
@@ -73,8 +69,6 @@ function ProfilePage() {
       travelMode: travel?.travel_mode ?? '',
       flightInfo: travel?.flight_info ?? '',
       arrival: travel?.arrival ?? '',
-      lodgingName: travel?.lodging_name ?? '',
-      lodgingAddress: travel?.lodging_address ?? '',
       notes: travel?.notes ?? '',
     })
   }, [profile, session, travel])
@@ -131,8 +125,6 @@ function ProfilePage() {
         travelMode: form.travelMode.trim(),
         flightInfo: form.flightInfo.trim(),
         arrival: form.arrival.trim(),
-        lodgingName: form.lodgingName.trim(),
-        lodgingAddress: form.lodgingAddress.trim(),
         notes: form.notes.trim(),
       })
       await refreshProfile()
@@ -239,17 +231,22 @@ function ProfilePage() {
                     Arrival date and time
                     <input maxLength={100} className={fieldClassName} placeholder="For example: Thursday afternoon" value={form.arrival} onChange={(event) => update('arrival', event.target.value)} />
                   </label>
-                  <label className="text-sm font-semibold">
-                    Lodging name
-                    <span className="mt-1 flex items-center gap-2 rounded-xl border border-sea/15 bg-white px-4 focus-within:border-tide focus-within:ring-2 focus-within:ring-tide/20">
-                      <BedDouble size={17} className="text-tide" />
-                      <input maxLength={200} className="w-full py-3 outline-none placeholder:text-sea/35" placeholder="Rental, hotel, or not booked yet" value={form.lodgingName} onChange={(event) => update('lodgingName', event.target.value)} />
-                    </span>
-                  </label>
-                  <label className="text-sm font-semibold">
-                    Lodging address
-                    <input maxLength={300} className={fieldClassName} placeholder="Address or general area" value={form.lodgingAddress} onChange={(event) => update('lodgingAddress', event.target.value)} />
-                  </label>
+                  <div className="rounded-2xl bg-foam/60 p-4 text-sm sm:col-span-2">
+                    <p className="flex items-center gap-2 font-semibold text-sea">
+                      <BedDouble size={17} className="text-tide" /> Shared reunion lodging
+                    </p>
+                    <p className="mt-1 text-sea/70">
+                      The family is staying at the Historic 3 Unit Beach House for Families on North Beach.
+                    </p>
+                    <a
+                      href="https://www.vrbo.com/4310560"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-2 inline-flex items-center gap-1 font-semibold text-tide hover:text-sea"
+                    >
+                      View the VRBO listing <ExternalLink size={14} />
+                    </a>
+                  </div>
                   <label className="text-sm font-semibold sm:col-span-2">
                     Notes for your family branch <span className="font-normal text-sea/50">(optional)</span>
                     <textarea rows={3} maxLength={1000} className={fieldClassName} placeholder="Car seats, accessibility needs, or anything helpful for coordinating…" value={form.notes} onChange={(event) => update('notes', event.target.value)} />

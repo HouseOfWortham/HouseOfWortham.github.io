@@ -19,8 +19,6 @@ export type MemberDetailsInput = {
   travelMode: string
   flightInfo: string
   arrival: string
-  lodgingName: string
-  lodgingAddress: string
   notes: string
 }
 
@@ -61,8 +59,8 @@ export async function saveMemberDetails(input: MemberDetailsInput) {
     travel_mode: input.travelMode,
     flight_info: input.flightInfo,
     arrival: input.arrival,
-    lodging_name: input.lodgingName,
-    lodging_address: input.lodgingAddress,
+    lodging_name: '',
+    lodging_address: '',
     notes: input.notes,
   })
   if (travelError) throw travelError

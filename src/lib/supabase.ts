@@ -104,6 +104,15 @@ type Database = {
         Args: Record<string, never>
         Returns: { activity_id: number; rating: number; vote_count: number }[]
       }
+      get_family_travel_summaries: {
+        Args: Record<string, never>
+        Returns: {
+          family_group_id: number
+          travel_mode: string
+          status: string
+          member_count: number
+        }[]
+      }
     }
     Enums: Record<string, never>
     CompositeTypes: Record<string, never>

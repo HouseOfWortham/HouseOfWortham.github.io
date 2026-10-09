@@ -92,64 +92,6 @@ export const activities: Activity[] = [
   },
 ]
 
-export type TravelSummary = {
-  familyGroupId: number
-  flight: string
-  arrival: string
-  lodging: string
-  lodgingAddress: string
-  confirmed: number
-  pending: number
-}
-
-export const travelByGroup: TravelSummary[] = [
-  {
-    familyGroupId: 1,
-    flight: 'TBD',
-    arrival: 'TBD',
-    lodging: 'TBD',
-    lodgingAddress: 'TBD',
-    confirmed: 0,
-    pending: 2,
-  },
-  {
-    familyGroupId: 2,
-    flight: 'TBD',
-    arrival: 'TBD',
-    lodging: 'TBD',
-    lodgingAddress: 'TBD',
-    confirmed: 0,
-    pending: 8,
-  },
-  {
-    familyGroupId: 3,
-    flight: 'TBD',
-    arrival: 'TBD',
-    lodging: 'TBD',
-    lodgingAddress: 'TBD',
-    confirmed: 0,
-    pending: 5,
-  },
-  {
-    familyGroupId: 4,
-    flight: 'Driving · I-95 South (~7h)',
-    arrival: 'Thu, Jun 10 · Morning',
-    lodging: 'TBD',
-    lodgingAddress: 'Tybee Island, GA',
-    confirmed: 0,
-    pending: 3,
-  },
-  {
-    familyGroupId: 5,
-    flight: 'Driving · I-95 South (~4h 30m)',
-    arrival: 'Thu, Jun 10 · Morning',
-    lodging: 'TBD',
-    lodgingAddress: 'Tybee Island, GA',
-    confirmed: 0,
-    pending: 9,
-  },
-]
-
 export const faqs: { q: string; a: string }[] = [
   {
     q: 'Which airport should I fly into?',
@@ -157,11 +99,11 @@ export const faqs: { q: string; a: string }[] = [
   },
   {
     q: 'Do I need a car on the island?',
-    a: 'Not really. Tybee is about 3 miles long and very bikeable. We’ll organize airport carpools — just add your flight in your travel details.',
+    a: 'Not really. Tybee is about 3 miles long and very bikeable. Add your travel method and arrival details to your profile, then coordinate an airport ride with family. Individual flight details are visible only to you.',
   },
   {
     q: 'Where do I park?',
-    a: 'Most rentals include parking. Public beach lots use the Park Tybee app; budget about $3/hour in summer.',
+    a: 'Check the shared VRBO listing for the rental’s parking details. Public beach lots use the Park Tybee app; budget about $3/hour in summer.',
   },
   {
     q: 'What should I pack?',
@@ -169,7 +111,7 @@ export const faqs: { q: string; a: string }[] = [
   },
   {
     q: 'I haven’t booked yet — is that OK?',
-    a: 'Absolutely. Mark yourself as “not booked yet” and we’ll share any spare rooms within your branch’s rentals first.',
+    a: 'Absolutely. Mark yourself as “not booked yet” in your profile. The family is sharing one VRBO, so please coordinate booking and room details with the reunion organizer.',
   },
 ]
 

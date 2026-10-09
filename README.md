@@ -63,7 +63,9 @@ To enable family onboarding and saved profiles, open the Supabase **SQL Editor**
 
 After signing in, members without a saved profile or travel plan are sent to `/profile` to choose a branch and enter their details. They can return from the Profile link to edit them. The Google profile photo is used by default; the form also allows an optional image URL, not a file upload.
 
-GitHub Pages is static hosting and cannot run server functions. Profile/travel records and activity votes are stored in Supabase. Other members' travel details are not exposed by the profile setup.
+GitHub Pages is static hosting and cannot run server functions. Profile/travel records and activity votes are stored in Supabase. Individual travel details remain private; authenticated family members can view branch-level travel method and booking-status counts after applying the travel-summary migration.
+
+To show authenticated members an aggregate count of travel methods by family branch on the travel hub, apply [`supabase/migrations/20261009144200_family_travel_summaries.sql`](./supabase/migrations/20261009144200_family_travel_summaries.sql) in the Supabase SQL Editor after the member profile migration. The summary does not reveal member names, flight/route notes, or individual arrival times. The Profile form links to the family's shared VRBO instead of collecting redundant lodging details.
 
 ### Shared activity voting
 After applying the member profile migration, run [`supabase/migrations/20261008150700_shared_activity_voting.sql`](./supabase/migrations/20261008150700_shared_activity_voting.sql) in the Supabase SQL Editor. Members must sign in to submit or change their own 1–5 star ratings. Only each member's own vote rows are readable directly; a database function returns grouped counts for the shared averages without exposing individual votes. The app refreshes those counts on page focus and every 30 seconds.
