@@ -1,6 +1,6 @@
 import { Link, createFileRoute } from '@tanstack/react-router'
 import { useEffect, useRef, useState } from 'react'
-import { ArrowRight, Camera, CheckCircle2, Plane, Star, Users, Vote } from 'lucide-react'
+import { ArrowRight, Camera, CheckCircle2, ExternalLink, Plane, Star, Users, Vote } from 'lucide-react'
 import { Reveal } from '@/components/Reveal'
 import { Waves } from '@/components/Waves'
 import { AuthButton } from '@/components/AuthButton'
@@ -13,6 +13,8 @@ import {
   familyGroups,
 } from '@/data/fixtures'
 import { useActivityVotes } from '@/hooks/useActivityVotes'
+import { useGoogleDrivePhotos } from '@/hooks/useGoogleDrivePhotos'
+import { getCurrentTripFolderUrl } from '@/lib/googleDrivePhotos'
 
 export const Route = createFileRoute('/')({
   component: Home,
@@ -264,44 +266,84 @@ function ActivityPreview() {
 }
 
 function PhotoWall() {
+  const { photos, loading, error } = useGoogleDrivePhotos()
+  const [visibleCount, setVisibleCount] = useState(8)
+  const uploadUrl = getCurrentTripFolderUrl()
+
   return (
     <section className="bg-shell/50 py-24">
       <div className="mx-auto max-w-6xl px-5">
-        <Reveal>
-          <p className="font-semibold tracking-widest text-tide uppercase">Memories</p>
-          <h2 className="mt-2 font-display text-4xl font-semibold sm:text-5xl">The family album</h2>
-          <p className="mt-3 max-w-xl text-sea/70">
-            Reunion photos from years past live here. Photo uploads open up once everyone can sign in.
-          </p>
+        <Reveal className="flex flex-wrap items-end justify-between gap-6">
+          <div>
+            <p className="font-semibold tracking-widest text-tide uppercase">Memories</p>
+            <h2 className="mt-2 font-display text-4xl font-semibold sm:text-5xl">The family album</h2>
+            <p className="mt-3 max-w-xl text-sea/70">
+              Current trip photos appear first, followed by memories from past reunions.
+            </p>
+          </div>
+          {uploadUrl && (
+            <a
+              href={uploadUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-full bg-tide px-5 py-3 font-semibold text-white shadow transition hover:-translate-y-0.5 hover:bg-sea"
+            >
+              <Camera size={18} /> Add current-trip photos <ExternalLink size={15} />
+            </a>
+          )}
         </Reveal>
-        <div className="mt-12 grid auto-rows-[180px] grid-cols-2 gap-4 md:grid-cols-4">
-          <Reveal className="col-span-2 row-span-2">
-            <img src={publicAsset(IMAGES.family)} alt="Family on the beach at sunset" loading="lazy" className="h-full w-full rounded-3xl object-cover" />
-          </Reveal>
-          <Reveal delay={100}>
-            <img src={publicAsset(IMAGES.lighthouse)} alt="Tybee Island lighthouse" loading="lazy" className="h-full w-full rounded-3xl object-cover" />
-          </Reveal>
-          <Reveal delay={200}>
-            <PhotoPlaceholder label="Grandma’s 80th, 2024" />
-          </Reveal>
-          <Reveal delay={150}>
-            <PhotoPlaceholder label="Cousins’ fishing trip" />
-          </Reveal>
-          <Reveal delay={250}>
-            <img src={publicAsset(IMAGES.dolphins)} alt="Dolphins in the marsh" loading="lazy" className="h-full w-full rounded-3xl object-cover" />
-          </Reveal>
-        </div>
+
+        {loading && <p role="status" className="mt-10 text-sea/65">Loading family photos…</p>}
+        {error && (
+          <p role="alert" className="mt-10 rounded-2xl bg-white p-5 text-sm text-sea/75 shadow">
+            Photo gallery unavailable: {error}
+          </p>
+        )}
+        {!loading && !error && photos.length === 0 && (
+          <p className="mt-10 rounded-2xl bg-white p-5 text-sea/75 shadow">
+            No shared photos yet. Add the first photos to the current-trip folder.
+          </p>
+        )}
+        {photos.length > 0 && (
+          <>
+            <div className="mt-12 grid grid-cols-2 gap-4 md:grid-cols-4">
+              {photos.slice(0, visibleCount).map((photo, index) => (
+                <Reveal key={photo.id} delay={(index % 4) * 70}>
+                  <a
+                    href={photo.viewUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group relative block aspect-[4/3] overflow-hidden rounded-3xl bg-sea/10 shadow-sm"
+                    aria-label={`Open ${photo.name} in Google Drive`}
+                  >
+                    <img
+                      src={photo.imageUrl}
+                      alt={photo.name}
+                      loading="lazy"
+                      className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                    />
+                    <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent px-4 pb-3 pt-10 text-sm font-semibold text-white">
+                      {photo.album === 'current' ? 'Current trip' : 'Past reunion'}
+                    </span>
+                  </a>
+                </Reveal>
+              ))}
+            </div>
+            {visibleCount < photos.length && (
+              <div className="mt-8 text-center">
+                <button
+                  type="button"
+                  onClick={() => setVisibleCount((count) => count + 8)}
+                  className="rounded-full border border-sea/20 bg-white px-6 py-3 font-semibold text-sea transition hover:border-tide hover:text-tide"
+                >
+                  Show more photos
+                </button>
+              </div>
+            )}
+          </>
+        )}
       </div>
     </section>
-  )
-}
-
-function PhotoPlaceholder({ label }: { label: string }) {
-  return (
-    <div className="flex h-full w-full flex-col items-center justify-center gap-2 rounded-3xl border-2 border-dashed border-sea/20 bg-white/60 text-center text-sea/50">
-      <Camera size={28} />
-      <span className="px-3 text-sm font-medium">{label}</span>
-    </div>
   )
 }
 

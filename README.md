@@ -36,9 +36,25 @@ For local development, create an ignored `.env.local` file with the same values,
 ```dotenv
 VITE_SUPABASE_URL=https://YOUR-PROJECT-REF.supabase.co
 VITE_SUPABASE_PUBLISHABLE_KEY=YOUR_SUPABASE_PUBLISHABLE_KEY
+VITE_GOOGLE_DRIVE_API_KEY=YOUR_RESTRICTED_GOOGLE_API_KEY
+VITE_GOOGLE_DRIVE_PRIOR_TRIPS_FOLDER_ID=YOUR_PAST_PHOTOS_FOLDER_ID
+VITE_GOOGLE_DRIVE_CURRENT_TRIP_FOLDER_ID=YOUR_CURRENT_TRIP_FOLDER_ID
 ```
 
 These are browser-visible public project credentials; never use the `service_role` key or put the Google OAuth client secret in the app or GitHub variables.
+
+### Google Drive photo gallery
+The home page reads images from two Google Drive folders. Create a Google API key with the **Google Drive API** enabled, restrict the key to that API and to the website's HTTP referrers (including `http://localhost:3000/*` for local development), and configure these values:
+
+| Variable | Value |
+|---|---|
+| `VITE_GOOGLE_DRIVE_API_KEY` | Restricted Google API key; it is public in the built site, so referrer and API restrictions are required |
+| `VITE_GOOGLE_DRIVE_PRIOR_TRIPS_FOLDER_ID` | Folder ID for past reunion photos |
+| `VITE_GOOGLE_DRIVE_CURRENT_TRIP_FOLDER_ID` | Folder ID for this trip's photos |
+
+Add them as GitHub repository variables for Pages builds. For local development, add the same names to the ignored `.env.local` file. Set both folders' general access to **Anyone with the link — Viewer** so the public gallery can list and display images. The current-trip folder's upload link opens Google Drive; family members need a Google account with **Editor** access to add photos. The site does not upload directly or make private photos public.
+
+If an API key was pasted into a chat, issue tracker, or source file, rotate it in Google Cloud before configuring the site. Never commit the key to source code. The API key is visible to visitors by design; restrictions limit its use but do not make it secret.
 
 In Supabase **Authentication → URL Configuration**, set the Site URL to the deployed site URL and allow the local URL `http://localhost:3000/**`. For a project site, the deployed URL includes the repository path, such as `https://USERNAME.github.io/Family-Reunion-2027/`. In Google Cloud, the authorized redirect URI remains Supabase's callback URL ending in `/auth/v1/callback`; it is not the GitHub Pages URL.
 
