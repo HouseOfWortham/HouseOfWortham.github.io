@@ -14,7 +14,7 @@ import {
 } from '@/data/fixtures'
 import { useActivityVotes } from '@/hooks/useActivityVotes'
 import { useGoogleDrivePhotos } from '@/hooks/useGoogleDrivePhotos'
-import { getCurrentTripFolderUrl } from '@/lib/googleDrivePhotos'
+import { getCurrentTripFolderUrl, type GoogleDrivePhoto } from '@/lib/googleDrivePhotos'
 
 export const Route = createFileRoute('/')({
   component: Home,
@@ -267,8 +267,37 @@ function ActivityPreview() {
 
 function PhotoWall() {
   const { photos, loading, error } = useGoogleDrivePhotos()
-  const [visibleCount, setVisibleCount] = useState(8)
+  const [displayedPhotos, setDisplayedPhotos] = useState<GoogleDrivePhoto[]>([])
   const uploadUrl = getCurrentTripFolderUrl()
+
+  useEffect(() => {
+    if (photos.length === 0) {
+      setDisplayedPhotos([])
+      return
+    }
+
+    const choosePhotos = (excludeIds: Set<string>) => {
+      const count = Math.min(6, photos.length)
+      const unseen = photos.filter((photo) => !excludeIds.has(photo.id))
+      const candidates = unseen.length >= count ? unseen : photos
+      const shuffled = [...candidates]
+      for (let index = shuffled.length - 1; index > 0; index -= 1) {
+        const randomIndex = Math.floor(Math.random() * (index + 1))
+        const photo = shuffled[index]
+        shuffled[index] = shuffled[randomIndex]
+        shuffled[randomIndex] = photo
+      }
+      return shuffled.slice(0, count)
+    }
+
+    setDisplayedPhotos(choosePhotos(new Set()))
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
+    const interval = window.setInterval(() => {
+      setDisplayedPhotos((current) => choosePhotos(new Set(current.map((photo) => photo.id))))
+    }, 5000)
+    return () => window.clearInterval(interval)
+  }, [photos])
 
   return (
     <section className="bg-shell/50 py-24">
@@ -304,43 +333,43 @@ function PhotoWall() {
             No shared photos yet. Add the first photos to the current-trip folder.
           </p>
         )}
-        {photos.length > 0 && (
-          <>
-            <div className="mt-12 grid grid-cols-2 gap-4 md:grid-cols-4">
-              {photos.slice(0, visibleCount).map((photo, index) => (
-                <Reveal key={photo.id} delay={(index % 4) * 70}>
+        {displayedPhotos.length > 0 && (
+          <div className="mt-12 grid auto-rows-[140px] grid-cols-2 gap-4 sm:auto-rows-[180px] md:grid-cols-4">
+            {displayedPhotos.map((photo, index) => {
+              const sizeClass = [
+                'col-span-2 row-span-2',
+                '',
+                'row-span-2',
+                '',
+                '',
+                'col-span-2',
+              ][index]
+              return (
+                <Reveal key={photo.id} delay={(index % 4) * 70} className={sizeClass}>
                   <a
                     href={photo.viewUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group relative block aspect-[4/3] overflow-hidden rounded-3xl bg-sea/10 shadow-sm"
                     aria-label={`Open ${photo.name} in Google Drive`}
+                    className="group relative block h-full w-full overflow-hidden rounded-3xl bg-sea/10 shadow-sm"
                   >
                     <img
                       src={photo.imageUrl}
                       alt={photo.name}
                       loading="lazy"
-                      className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                      className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
                     />
                     <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent px-4 pb-3 pt-10 text-sm font-semibold text-white">
                       {photo.album === 'current' ? 'Current trip' : 'Past reunion'}
                     </span>
                   </a>
                 </Reveal>
-              ))}
-            </div>
-            {visibleCount < photos.length && (
-              <div className="mt-8 text-center">
-                <button
-                  type="button"
-                  onClick={() => setVisibleCount((count) => count + 8)}
-                  className="rounded-full border border-sea/20 bg-white px-6 py-3 font-semibold text-sea transition hover:border-tide hover:text-tide"
-                >
-                  Show more photos
-                </button>
-              </div>
-            )}
-          </>
+              )
+            })}
+          </div>
+        )}
+        {displayedPhotos.length > 0 && (
+          <p className="mt-4 text-center text-sm text-sea/60">Random photos refresh every 5 seconds</p>
         )}
       </div>
     </section>
