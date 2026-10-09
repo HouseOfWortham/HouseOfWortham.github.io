@@ -6,6 +6,7 @@ import { IMAGES, REUNION, publicAsset } from '@/data/fixtures'
 
 const links = [
   { to: '/', label: 'Home' },
+  { to: '/schedule', label: 'Trip Schedule' },
   { to: '/vote', label: 'Vote on Activities' },
   { to: '/faq', label: 'Travel Hub & FAQ' },
 ] as const
