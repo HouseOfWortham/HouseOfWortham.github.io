@@ -30,9 +30,14 @@ The site is statically prerendered and hosted on GitHub Pages. Supabase provides
 - [x] Save votes with an upsert on (user_id, activity_id) the moment a star is tapped.
 - [x] Return live averages and distributions from SQL aggregates; light polling or refetch-on-focus so the numbers stay current.
 
-## Milestone 6 — Profile & Settings
+## Milestone 6 — Shared trip schedule ✅
+- Four-day meals, activities, and combined timeline views with family-group highlighting.
+- Authenticated members can propose and edit meals, assign meal hosts or component claims, and manage activities.
+- Schedule data is stored in Supabase and shared with live updates between signed-in members.
+
+## Milestone 7 — Profile & Settings
 - Profile page shows the member's name, email, family group, and Google or custom photo URL; name, branch, and travel details are editable.
 - Future work: photo uploads, notification settings, and account deletion.
 
-## Milestone 7 — Polish
+## Milestone 8 — Polish
 - Family photo uploads to the album, an admin view for organizers to edit activities and group defaults, and accessibility and performance passes.

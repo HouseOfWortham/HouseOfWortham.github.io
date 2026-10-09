@@ -34,6 +34,37 @@ type ActivityVoteRow = {
   updated_at: string
 }
 
+export type Json =
+  | string
+  | number
+  | boolean
+  | null
+  | { [key: string]: Json | undefined }
+  | Json[]
+
+export type ScheduleMealRow = {
+  id: string
+  day_number: number
+  meal_type: 'Breakfast' | 'Lunch' | 'Dinner'
+  title: string | null
+  notes: string
+  split_mode: 'single' | 'components'
+  hosted_by_group_id: number | null
+  components: Json
+  updated_at: string
+}
+
+export type ScheduleActivityRow = {
+  id: string
+  day_number: number
+  time_slot: string
+  title: string
+  description: string
+  location: string
+  organized_by_group_id: number | null
+  updated_at: string
+}
+
 type Table<Row, Insert, Update = Partial<Insert>> = {
   Row: Row
   Insert: Insert
@@ -56,6 +87,14 @@ type Database = {
       activity_votes: Table<
         ActivityVoteRow,
         Omit<ActivityVoteRow, 'updated_at'> & { updated_at?: string }
+      >
+      schedule_meals: Table<
+        ScheduleMealRow,
+        Omit<ScheduleMealRow, 'id' | 'updated_at'> & { id?: string; updated_at?: string }
+      >
+      schedule_activities: Table<
+        ScheduleActivityRow,
+        Omit<ScheduleActivityRow, 'id' | 'updated_at'> & { id?: string; updated_at?: string }
       >
     }
     Views: Record<string, never>
