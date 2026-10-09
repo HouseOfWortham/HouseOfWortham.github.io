@@ -37,6 +37,7 @@ type MealDraft = {
   id: string
   dayNumber: number
   mealType: MealType
+  timeSlot: string
   title: string
   notes: string
   splitMode: 'single' | 'components'
@@ -64,13 +65,30 @@ const days = [
   { number: 4, label: 'Sun, Jun 13' },
 ] as const
 
+const defaultMealTimes: Record<MealType, string> = {
+  Breakfast: '08:00',
+  Lunch: '12:30',
+  Dinner: '18:30',
+}
+
+function formatTime(timeSlot: string) {
+  const match = timeSlot.match(/^(\d{1,2}):(\d{2})$/)
+  if (!match) return timeSlot
+  const hour = Number(match[1])
+  const minutes = Number(match[2])
+  if (hour > 23 || minutes > 59) return timeSlot
+  return new Intl.DateTimeFormat('en-US', { hour: 'numeric', minute: '2-digit' }).format(
+    new Date(2000, 0, 1, hour, minutes),
+  )
+}
+
 const groupFilters = [
   { id: null, label: 'All groups' },
-  { id: 2, label: 'Badger' },
-  { id: 1, label: 'Hambelton' },
-  { id: 3, label: 'Hunt' },
-  { id: 4, label: 'McBride' },
-  { id: 5, label: 'Wortham' },
+  { id: 2, label: 'Badger Borough' },
+  { id: 1, label: 'Hambelton Homestead' },
+  { id: 3, label: 'Treasure Valley Hunts' },
+  { id: 4, label: 'Marevelous McBrides' },
+  { id: 5, label: 'Wortham Wing' },
 ] as const
 
 const groupBadgeClasses: Record<GroupId, string> = {
@@ -115,6 +133,7 @@ function toMealDraft(row: ScheduleMealRow): MealDraft {
     id: row.id,
     dayNumber: row.day_number,
     mealType: row.meal_type,
+    timeSlot: row.time_slot || defaultMealTimes[row.meal_type],
     title: row.title ?? '',
     notes: row.notes,
     splitMode: row.split_mode,
@@ -131,10 +150,19 @@ function isAssignedToMeal(meal: ScheduleMealRow, groupId: GroupId) {
 }
 
 function activityTimeOrder(timeSlot: string) {
+  const twentyFourHourMatch = timeSlot.match(/^(\d{1,2}):(\d{2})$/)
+  if (twentyFourHourMatch) {
+    const hour = Number(twentyFourHourMatch[1])
+    const minutes = Number(twentyFourHourMatch[2])
+    if (hour <= 23 && minutes <= 59) return hour * 60 + minutes
+  }
+
   const match = timeSlot.match(/\b(\d{1,2})(?::(\d{2}))?\s*(AM|PM)\b/i)
   if (match) {
     const hour = Number(match[1]) % 12
-    return (hour + (match[3].toUpperCase() === 'PM' ? 12 : 0)) * 60 + Number(match[2] ?? 0)
+    const minutes = Number(match[2] ?? 0)
+    if (minutes > 59) return 23 * 60
+    return (hour + (match[3].toUpperCase() === 'PM' ? 12 : 0)) * 60 + minutes
   }
   const timeframe = timeSlot.toLowerCase()
   if (timeframe.includes('morning')) return 9 * 60
@@ -145,9 +173,12 @@ function activityTimeOrder(timeSlot: string) {
 }
 
 function buildTimeline(dayMeals: ScheduleMealRow[], dayActivities: ScheduleActivityRow[]) {
-  const mealTimes: Record<MealType, number> = { Breakfast: 8 * 60, Lunch: 12 * 60 + 30, Dinner: 18 * 60 + 30 }
   return [
-    ...dayMeals.map((meal) => ({ kind: 'meal' as const, sortTime: mealTimes[meal.meal_type], meal })),
+    ...dayMeals.map((meal) => ({
+      kind: 'meal' as const,
+      sortTime: activityTimeOrder(meal.time_slot || defaultMealTimes[meal.meal_type]),
+      meal,
+    })),
     ...dayActivities.map((activity) => ({
       kind: 'activity' as const,
       sortTime: activityTimeOrder(activity.time_slot),
@@ -239,6 +270,7 @@ function SchedulePage() {
         id: meal.id,
         day_number: meal.dayNumber,
         meal_type: meal.mealType,
+        time_slot: meal.timeSlot,
         title: meal.title.trim(),
         notes: meal.notes.trim(),
         split_mode: meal.splitMode,
@@ -411,7 +443,9 @@ function SchedulePage() {
                               <div key={meal.id} className={`rounded-2xl border border-sea/10 bg-[#fbfcfc] p-4 transition-opacity ${dimmed ? 'opacity-35' : ''}`}>
                                 <div className="flex items-start justify-between gap-3">
                                   <div className="min-w-0">
-                                    <p className="text-xs font-bold tracking-wide text-tide uppercase">{meal.meal_type}</p>
+                                    <p className="flex items-center gap-1.5 text-xs font-bold tracking-wide text-tide uppercase">
+                                      <Clock3 size={13} /> {formatTime(meal.time_slot || defaultMealTimes[meal.meal_type])} · {meal.meal_type}
+                                    </p>
                                     {meal.title ? (
                                       <h3 className="mt-1 font-semibold">{meal.title}</h3>
                                     ) : (
@@ -525,7 +559,7 @@ function SchedulePage() {
                                 : item.activity.organized_by_group_id !== filterGroup
                             )
                             const time = isMeal
-                              ? `${Math.floor(item.sortTime / 60) % 12 || 12}:${String(item.sortTime % 60).padStart(2, '0')} ${item.sortTime < 12 * 60 ? 'AM' : 'PM'}`
+                              ? formatTime(item.meal.time_slot || defaultMealTimes[item.meal.meal_type])
                               : item.activity.time_slot || 'Time TBD'
                             return (
                               <div key={isMeal ? item.meal.id : item.activity.id} className={`flex gap-3 rounded-2xl border p-3 transition-opacity ${isMeal ? 'border-sea/10 bg-[#fbfcfc]' : 'border-tide/20 bg-tide/5'} ${dimmed ? 'opacity-35' : ''}`}>
@@ -726,6 +760,15 @@ function MealEditor({
       <form onSubmit={submit} className="space-y-4">
         <Field label="Meal title">
           <input className={inputClass} autoFocus required maxLength={120} placeholder="e.g. Taco bar" value={draft.title} onChange={(event) => setDraft({ ...draft, title: event.target.value })} />
+        </Field>
+        <Field label="Meal time">
+          <input
+            className={inputClass}
+            type="time"
+            required
+            value={draft.timeSlot}
+            onChange={(event) => setDraft({ ...draft, timeSlot: event.target.value })}
+          />
         </Field>
         <fieldset>
           <legend className="mb-2 text-sm font-semibold text-sea/80">How should this meal be hosted?</legend>

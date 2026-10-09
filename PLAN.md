@@ -32,6 +32,7 @@ The site is statically prerendered and hosted on GitHub Pages. Supabase provides
 
 ## Milestone 6 — Shared trip schedule ✅
 - Four-day meals, activities, and combined timeline views with family-group highlighting.
+- Each meal has an editable time used to order it in the combined timeline.
 - Authenticated members can propose and edit meals, assign meal hosts or component claims, and manage activities.
 - Schedule data is stored in Supabase and shared with live updates between signed-in members.
 

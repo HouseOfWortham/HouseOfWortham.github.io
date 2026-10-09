@@ -46,6 +46,7 @@ export type ScheduleMealRow = {
   id: string
   day_number: number
   meal_type: 'Breakfast' | 'Lunch' | 'Dinner'
+  time_slot: string
   title: string | null
   notes: string
   split_mode: 'single' | 'components'
