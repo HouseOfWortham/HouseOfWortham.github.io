@@ -1,14 +1,15 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useEffect, useMemo, useState } from 'react'
-import { CalendarDays, Check, Star, Users } from 'lucide-react'
+import { CalendarDays, Check, ChevronLeft, ChevronRight, Star, Users } from 'lucide-react'
 import { Reveal } from '@/components/Reveal'
 import { StarRating } from '@/components/StarRating'
 import { PageHero } from '@/components/PageHero'
 import { AuthButton } from '@/components/AuthButton'
 import { useAuth } from '@/components/AuthProvider'
-import { activities, averageRating, publicAsset } from '@/data/fixtures'
+import { activities, averageRating, publicAsset, type Activity } from '@/data/fixtures'
 import { saveActivityVote } from '@/lib/activityVotes'
 import { useActivityVotes } from '@/hooks/useActivityVotes'
+import { useActivityPhotos } from '@/hooks/useActivityPhotos'
 
 export const Route = createFileRoute('/vote')({
   head: () => ({ meta: [{ title: 'Vote on Activities · Tybee Tides' }] }),
@@ -127,12 +128,7 @@ function VotePage() {
             <Reveal key={a.id} delay={(i % 2) * 100}>
               <article className="group flex h-full flex-col overflow-hidden rounded-3xl bg-white shadow-[0_10px_40px_-20px_rgba(11,59,79,0.35)] sm:flex-row">
                 <div className="relative h-48 shrink-0 overflow-hidden sm:h-auto sm:w-48">
-                  <img
-                    src={publicAsset(a.image)}
-                    alt={a.name}
-                    loading="lazy"
-                    className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
-                  />
+                  <ActivityPhotoCarousel activity={a} />
                   {sort === 'popular' && (
                     <span className="absolute top-3 left-3 rounded-full bg-white/90 px-2.5 py-0.5 text-sm font-semibold">
                       #{i + 1}
@@ -182,6 +178,59 @@ function VotePage() {
           ))}
         </div>
       </section>
+    </>
+  )
+}
+
+function ActivityPhotoCarousel({ activity }: { activity: Activity }) {
+  const { photos, error } = useActivityPhotos(activity.photoFolderId)
+  const [currentIndex, setCurrentIndex] = useState(0)
+
+  useEffect(() => {
+    setCurrentIndex(0)
+    if (photos.length < 2 || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const interval = window.setInterval(() => {
+      setCurrentIndex((index) => (index + 1) % photos.length)
+    }, 8000)
+    return () => window.clearInterval(interval)
+  }, [photos])
+
+  const photo = photos[currentIndex]
+
+  return (
+    <>
+      <img
+        key={photo?.id ?? activity.id}
+        src={photo?.imageUrl ?? publicAsset(activity.image)}
+        alt={photo?.name ?? activity.name}
+        loading="lazy"
+        className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
+      />
+      {error && (
+        <span role="status" className="absolute inset-x-2 bottom-2 rounded-lg bg-black/65 px-2 py-1 text-center text-xs text-white">
+          Activity photos unavailable
+        </span>
+      )}
+      {photo && photos.length > 1 && (
+        <>
+          <button
+            type="button"
+            aria-label={`Previous ${activity.name} photo`}
+            onClick={() => setCurrentIndex((index) => (index - 1 + photos.length) % photos.length)}
+            className="absolute top-1/2 left-2 grid h-8 w-8 -translate-y-1/2 place-items-center rounded-full bg-black/50 text-white"
+          >
+            <ChevronLeft size={18} />
+          </button>
+          <button
+            type="button"
+            aria-label={`Next ${activity.name} photo`}
+            onClick={() => setCurrentIndex((index) => (index + 1) % photos.length)}
+            className="absolute top-1/2 right-2 grid h-8 w-8 -translate-y-1/2 place-items-center rounded-full bg-black/50 text-white"
+          >
+            <ChevronRight size={18} />
+          </button>
+        </>
+      )}
     </>
   )
 }

@@ -29,6 +29,7 @@ The site is statically prerendered and hosted on GitHub Pages. Supabase provides
 ## Milestone 5 — Live voting ✅
 - [x] Save votes with an upsert on (user_id, activity_id) the moment a star is tapped.
 - [x] Return live averages and distributions from SQL aggregates; light polling or refetch-on-focus so the numbers stay current.
+- [x] Use the reunion activity list and optional per-activity Drive photo carousels.
 
 ## Milestone 6 — Shared trip schedule ✅
 - Four-day meals, activities, and combined timeline views with family-group highlighting.

@@ -35,7 +35,9 @@ export async function loadActivityVotes(userId: string | null): Promise<Activity
       .eq('user_id', userId)
     if (error) throw error
 
-    for (const vote of data) myVotes[vote.activity_id] = vote.rating
+    for (const vote of data) {
+      if (activities.some(({ id }) => id === vote.activity_id)) myVotes[vote.activity_id] = vote.rating
+    }
   }
 
   return { counts, myVotes }

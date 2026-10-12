@@ -3,7 +3,7 @@ export type GoogleDrivePhoto = {
   name: string
   imageUrl: string
   viewUrl: string
-  album: 'current' | 'past'
+  album: 'current' | 'past' | 'activity'
 }
 
 type DriveFile = {
@@ -81,6 +81,13 @@ export async function loadGoogleDrivePhotos(signal: AbortSignal) {
   ])
 
   return [...currentPhotos, ...priorPhotos]
+}
+
+export async function loadActivityPhotos(folderId: string, signal: AbortSignal) {
+  if (!apiKey) {
+    throw new Error('The activity photo carousel needs VITE_GOOGLE_DRIVE_API_KEY configured.')
+  }
+  return listFolderPhotos(folderId, apiKey, 'activity', signal)
 }
 
 export function getCurrentTripFolderUrl() {
