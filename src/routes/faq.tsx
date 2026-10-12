@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { createFileRoute } from '@tanstack/react-router'
-import { BedDouble, Car, ChevronDown, ExternalLink, MapPin, Navigation, Plane, Users } from 'lucide-react'
+import { BedDouble, Car, ChevronDown, ExternalLink, MapPin, Navigation, Plane, Users, Footprints } from 'lucide-react'
 import { Reveal } from '@/components/Reveal'
 import { PageHero } from '@/components/PageHero'
 import { AuthButton } from '@/components/AuthButton'
@@ -14,9 +14,10 @@ export const Route = createFileRoute('/faq')({
 })
 
 const directions = [
-  { icon: Plane, title: 'From SAV airport', body: 'I-95 S → I-16 E into Savannah, then US-80 E all the way to the island. About 35 minutes.' },
-  { icon: Car, title: 'Driving in from I-95', body: 'Take exit 99A to I-16 E, follow signs for Tybee Island / US-80 E. The last causeway is gorgeous at sunset.' },
-  { icon: MapPin, title: 'Reunion home base', body: 'The shared family rental is in the North Beach area. See the VRBO listing above for the property details.' },
+  { icon: Plane, title: 'From SAV airport', body: 'I-95 S → I-16 E into Savannah, then US-80 E all the way to the island. About 57 minutes.' },
+  { icon: Car, title: 'To Riverwalk Savannah', body: 'Take US-80 W all the way to Evergreen Ave.' },
+  { icon: Footprints, title: 'Tybee Island Beach', body: 'The beach is a short 8 minute walk from the VRBO.' },
+  { icon: Footprints, title: 'Tybee Light Station and Museum', body: 'The Lighthouse and museum is a 7 minute walk. Pretty much right across the street from the VRBO.' },
 ]
 
 const vrboUrl = 'https://www.vrbo.com/4310560'
@@ -84,7 +85,7 @@ function FaqPage() {
 
       <section className="mx-auto -mt-12 max-w-6xl px-5">
         <div className="relative z-10 grid gap-4 sm:grid-cols-3">
-          <Stat label="Family profiles" value={summaryLoading ? '…' : session ? String(memberCount) : '—'} accent="text-sea" />
+          <Stat label="Family Members Accounts" value={summaryLoading ? '…' : session ? String(memberCount) : '—'} accent="text-sea" />
           <Stat label="Travel methods shared" value={summaryLoading ? '…' : session ? String(sharedMethodCount) : '—'} accent="text-tide" />
           <Stat label="Travel confirmed" value={summaryLoading ? '…' : session ? String(confirmedCount) : '—'} accent="text-coral" />
         </div>
@@ -210,7 +211,7 @@ function FaqPage() {
         </div>
         {session && !summaryLoading && !summaryError && summaries.length === 0 && (
           <p className="mt-8 rounded-2xl bg-white p-5 text-sea/65 shadow">
-            No family profiles or travel plans have been saved yet.
+            No family members accounts or travel plans have been saved yet.
           </p>
         )}
       </section>
@@ -234,7 +235,7 @@ function FaqPage() {
               ))}
             </div>
             <a
-              href="https://www.google.com/maps/dir/?api=1&destination=Tybee+Island+Pier+and+Pavilion"
+              href="https://www.google.com/maps/dir/?api=1&destination=49+Van+Horne+Ave,+Tybee+Island,+GA+31328"
               target="_blank"
               rel="noreferrer"
               className="mt-8 inline-flex items-center gap-2 rounded-full bg-coral px-5 py-3 font-semibold transition hover:-translate-y-0.5"
@@ -246,7 +247,7 @@ function FaqPage() {
             <div className="h-full min-h-80 overflow-hidden rounded-3xl border border-white/10">
               <iframe
                 title="Map of Tybee Island, GA"
-                src="https://www.google.com/maps?q=Tybee+Island,+GA&z=13&output=embed"
+                src="https://www.google.com/maps?q=49+Van+Horne+Ave,+Tybee+Island,+GA+31328&z=13&output=embed"
                 className="h-full min-h-80 w-full"
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"

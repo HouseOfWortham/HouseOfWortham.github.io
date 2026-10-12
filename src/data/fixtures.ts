@@ -33,10 +33,10 @@ export type FamilyGroup = {
 
 export const familyGroups: FamilyGroup[] = [
   { id: 1, groupName: 'The Hambelton Homestead', homeBase: 'Boise, ID', color: '#ff7a59', members: 2 },
-  { id: 2, groupName: 'The Badger Borough', homeBase: 'Boise, ID', color: '#1f9e9a', members: 8 },
+  { id: 2, groupName: 'The Badger Borough', homeBase: 'Boise, ID', color: '#1f9e9a', members: 9 },
   { id: 3, groupName: 'The Treasure Valley Hunts', homeBase: 'Boise, ID', color: '#f2b544', members: 5 },
   { id: 4, groupName: 'The Marevelous McBrides', homeBase: 'Richmond, VA', color: '#3d6fb6', members: 3 },
-  { id: 5, groupName: 'The Wortham Wing', homeBase: 'Charlotte, NC', color: '#903db6', members: 9 },
+  { id: 5, groupName: 'The Wortham Wing', homeBase: 'Charlotte, NC', color: '#903db6', members: 8 },
 ]
 
 export type Activity = {
@@ -95,7 +95,7 @@ export const activities: Activity[] = [
     description: 'Relax at the house with board games, movies, naps, and time together between outings.',
     image: IMAGES.family,
     when: 'At the rental',
-    photoFolderId: '',
+    photoFolderId: '1sawC0wYBf3eYgS8eDthy6eVppu4uzcE9',
   },
   {
     id: 13,
@@ -107,11 +107,11 @@ export const activities: Activity[] = [
   },
   {
     id: 14,
-    name: 'Broughton Street & Victorian District',
-    description: 'Explore Savannah shopping, historic streets, neighborhood architecture, and local landmarks.',
+    name: 'Go-Kart Racing',
+    description: 'Race go-karts, play mini-golf, and enjoy arcade games at a Savannah entertainment center.',
     image: IMAGES.hero,
-    when: 'Savannah',
-    photoFolderId: '',
+    when: 'Near Savannah',
+    photoFolderId: '1fbQFsXgK_eG14PxdBWAPPs9rCCfZ7h5y',
   },
   {
     id: 15,
@@ -123,18 +123,18 @@ export const activities: Activity[] = [
   },
   {
     id: 16,
-    name: 'Savannah Riverboat Cruise & Dinner',
-    description: 'Take a riverboat cruise, have dinner, or visit Savannah’s history museum and historic sites.',
+    name: 'Savannah Trolley Tour',
+    description: 'Take a trolley tour and visit Savannah’s history museum and historic sites.',
     image: IMAGES.dolphins,
     when: 'Savannah',
-    photoFolderId: '',
+    photoFolderId: '1s606CY0YTgDhjsLOWYGUNvw5f7S3ony3',
   },
 ]
 
 export const faqs: { q: string; a: string }[] = [
   {
     q: 'Which airport should I fly into?',
-    a: 'Savannah/Hilton Head International (SAV) is about 35 minutes from Tybee. Jacksonville (JAX) is a 2-hour drive if fares are much cheaper.',
+    a: 'Savannah/Hilton Head International (SAV) is about 57 minutes from Tybee. Jacksonville (JAX) is a 2-hour drive if fares are much cheaper.',
   },
   {
     q: 'Do I need a car on the island?',
