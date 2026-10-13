@@ -47,9 +47,8 @@ export function StarRating({
               key={popped === n ? `pop-${value}` : n}
               icon="star"
               size={30}
-              className={`transition-all ${popped === n ? 'animate-pop' : ''} ${
-                n <= shown ? 'opacity-100' : 'opacity-30 grayscale'
-              }`}
+              tone={n <= shown ? 'gold' : undefined}
+              className={`transition-all ${popped === n ? 'animate-pop' : ''} ${n <= shown ? '' : 'opacity-30 grayscale'}`}
             />
           </button>
         ))}

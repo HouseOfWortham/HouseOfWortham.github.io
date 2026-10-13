@@ -1,6 +1,6 @@
 import { useEffect, useState, type FormEvent } from 'react'
 import { createFileRoute } from '@tanstack/react-router'
-import { BedDouble, ExternalLink, Save, UserRound } from 'lucide-react'
+import { ExternalLink, Save } from 'lucide-react'
 import { PageHero } from '@/components/PageHero'
 import { Reveal } from '@/components/Reveal'
 import { useAuth } from '@/components/AuthProvider'
@@ -154,7 +154,7 @@ function ProfilePage() {
             {avatar ? (
               <img src={avatar} alt="" className="h-16 w-16 rounded-full bg-foam object-cover" referrerPolicy="no-referrer" />
             ) : (
-              <span className="grid h-16 w-16 place-items-center rounded-full bg-foam text-tide"><UserRound size={28} /></span>
+              <span className="grid h-16 w-16 place-items-center rounded-full bg-foam text-tide"><TybeeIcon icon="member" size={36} /></span>
             )}
             <div className="min-w-0">
               <h2 className="truncate font-display text-2xl font-semibold">{profile?.full_name || session.user.user_metadata.full_name || 'Family member'}</h2>
@@ -171,7 +171,7 @@ function ProfilePage() {
             <form onSubmit={handleSubmit} className="space-y-8 rounded-3xl bg-white p-6 shadow-[0_15px_50px_-25px_rgba(11,59,79,0.4)] sm:p-9">
               <section>
                 <div className="mb-5 flex items-center gap-3">
-                  <span className="grid h-10 w-10 place-items-center rounded-2xl bg-foam text-tide"><UserRound size={20} /></span>
+                  <span className="grid h-10 w-10 place-items-center rounded-2xl bg-foam text-tide"><TybeeIcon icon="member" size={26} /></span>
                   <div>
                     <h2 className="font-display text-2xl font-semibold">About you</h2>
                     <p className="text-sm text-sea/60">Your reunion name and family branch.</p>
@@ -234,7 +234,7 @@ function ProfilePage() {
                   </label>
                   <div className="rounded-2xl bg-foam/60 p-4 text-sm sm:col-span-2">
                     <p className="flex items-center gap-2 font-semibold text-sea">
-                      <BedDouble size={17} className="text-tide" /> Shared reunion lodging
+                      <TybeeIcon icon="bed" size={22} /> Shared reunion lodging
                     </p>
                     <p className="mt-1 text-sea/70">
                       The family is staying at the Historic 3 Unit Beach House for Families on North Beach.

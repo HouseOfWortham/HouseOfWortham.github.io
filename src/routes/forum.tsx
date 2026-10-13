@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useMemo, useState, type FormEvent } from 'react'
 import { createFileRoute } from '@tanstack/react-router'
 import type { RealtimeChannel } from '@supabase/supabase-js'
-import { HelpCircle, MessageCircle, MessageSquarePlus, Send } from 'lucide-react'
+import { HelpCircle, Send } from 'lucide-react'
 import { AuthButton } from '@/components/AuthButton'
 import { useAuth } from '@/components/AuthProvider'
 import { PageHero } from '@/components/PageHero'
 import { Reveal } from '@/components/Reveal'
+import { TybeeIcon } from '@/components/TybeeIcon'
 import { getSupabaseClient, type ForumPostRow, type ForumReplyRow } from '@/lib/supabase'
 
 export const Route = createFileRoute('/forum')({
@@ -193,7 +194,7 @@ function ForumPage() {
             <form onSubmit={submitPost} className="rounded-3xl bg-white p-6 shadow-[0_10px_40px_-20px_rgba(11,59,79,0.35)] sm:p-8">
               <div className="mb-5 flex items-center gap-3">
                 <span className="grid h-11 w-11 place-items-center rounded-2xl bg-foam text-tide">
-                  <MessageSquarePlus size={22} />
+                  <TybeeIcon icon="chat" size={28} />
                 </span>
                 <div>
                   <h2 className="font-display text-2xl font-semibold">Start a conversation</h2>
@@ -302,7 +303,7 @@ function ForumPage() {
                       }}
                       className="mt-5 inline-flex items-center gap-2 rounded-full bg-sand px-4 py-2 text-sm font-semibold text-sea transition hover:bg-foam"
                     >
-                      <MessageCircle size={16} />
+                      <TybeeIcon icon="chat" size={18} />
                       {expanded ? 'Hide replies' : `${postReplies.length} ${postReplies.length === 1 ? 'reply' : 'replies'} · Reply`}
                     </button>
 
