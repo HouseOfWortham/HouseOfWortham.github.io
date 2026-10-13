@@ -15,6 +15,7 @@ export function SiteFooter() {
           <Link to="/" className="hover:text-white">Home</Link>
           <Link to="/schedule" className="hover:text-white">Schedule</Link>
           <Link to="/vote" className="hover:text-white">Vote</Link>
+          <Link to="/forum" className="hover:text-white">Family Q&A</Link>
           <Link to="/faq" className="hover:text-white">Travel Hub</Link>
         </nav>
         <p className="text-sm">Made with sand between our toes 🐚</p>

@@ -8,6 +8,7 @@ const links = [
   { to: '/', label: 'Home' },
   { to: '/schedule', label: 'Trip Schedule' },
   { to: '/vote', label: 'Vote on Activities' },
+  { to: '/forum', label: 'Family Q&A' },
   { to: '/faq', label: 'Travel Hub & FAQ' },
 ] as const
 

@@ -72,5 +72,8 @@ After applying the member profile migration, run [`supabase/migrations/202610081
 
 The PDF activities are grouped into ten voting options in `src/data/fixtures.ts`, using IDs 7–16 so existing votes for the previous six options are not reassigned to different activities. After running the original voting migration, apply [`supabase/migrations/20261012135700_expand_activity_voting_options.sql`](./supabase/migrations/20261012135700_expand_activity_voting_options.sql). To enable a photo carousel for an option, set that activity's `photoFolderId` to its publicly readable Google Drive folder ID. The carousel uses `VITE_GOOGLE_DRIVE_API_KEY` and falls back to the local activity image if no folder ID is set.
 
+### Family Q&A forum
+Apply [`supabase/migrations/20261013100000_family_forum.sql`](./supabase/migrations/20261013100000_family_forum.sql) after the member profile migration. Signed-in members can read and create questions, ideas, and replies. Posts show the member's profile name, populated by a database trigger; email addresses are not exposed. Row-level security prevents anonymous access and only permits inserts as the signed-in user. The forum uses Supabase Realtime to refresh posts and replies across open sessions.
+
 ## Roadmap
 See [PLAN.md](./PLAN.md) for the roadmap. Shared live voting is implemented; the next milestone is profile and settings polish.

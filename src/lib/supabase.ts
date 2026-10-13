@@ -66,6 +66,26 @@ export type ScheduleActivityRow = {
   updated_at: string
 }
 
+export type ForumPostRow = {
+  id: string
+  user_id: string
+  author_name: string
+  kind: 'question' | 'feedback'
+  title: string
+  body: string
+  created_at: string
+  updated_at: string
+}
+
+export type ForumReplyRow = {
+  id: string
+  post_id: string
+  user_id: string
+  author_name: string
+  body: string
+  created_at: string
+}
+
 type Table<Row, Insert, Update = Partial<Insert>> = {
   Row: Row
   Insert: Insert
@@ -96,6 +116,16 @@ type Database = {
       schedule_activities: Table<
         ScheduleActivityRow,
         Omit<ScheduleActivityRow, 'id' | 'updated_at'> & { id?: string; updated_at?: string }
+      >
+      forum_posts: Table<
+        ForumPostRow,
+        Omit<ForumPostRow, 'id' | 'author_name' | 'created_at' | 'updated_at'> &
+          { id?: string; author_name?: string; created_at?: string; updated_at?: string }
+      >
+      forum_replies: Table<
+        ForumReplyRow,
+        Omit<ForumReplyRow, 'id' | 'author_name' | 'created_at'> &
+          { id?: string; author_name?: string; created_at?: string }
       >
     }
     Views: Record<string, never>

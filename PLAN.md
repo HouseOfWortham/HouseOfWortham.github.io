@@ -39,6 +39,7 @@ The site is statically prerendered and hosted on GitHub Pages. Supabase provides
 
 ## Milestone 7 — Profile & Settings
 - Profile page shows the member's name, email, family group, and Google or custom photo URL; name, branch, and travel details are editable.
+- Authenticated Family Q&A forum supports shared questions, feedback, replies, and realtime updates.
 - Future work: photo uploads, notification settings, and account deletion.
 
 ## Milestone 8 — Polish
