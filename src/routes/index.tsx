@@ -1,6 +1,6 @@
 import { Link, createFileRoute } from '@tanstack/react-router'
 import { useEffect, useRef, useState } from 'react'
-import { ArrowRight, Camera, CheckCircle2, ExternalLink, Star, Vote } from 'lucide-react'
+import { ArrowRight, Camera, CheckCircle2, ChevronLeft, ChevronRight, ExternalLink } from 'lucide-react'
 import { Reveal } from '@/components/Reveal'
 import { Waves } from '@/components/Waves'
 import { AuthButton } from '@/components/AuthButton'
@@ -13,6 +13,7 @@ import {
   familyGroups,
 } from '@/data/fixtures'
 import { useActivityVotes } from '@/hooks/useActivityVotes'
+import { useActivityPhotos } from '@/hooks/useActivityPhotos'
 import { useGoogleDrivePhotos } from '@/hooks/useGoogleDrivePhotos'
 import { getCurrentTripFolderUrl, type GoogleDrivePhoto } from '@/lib/googleDrivePhotos'
 import { TybeeIcon } from '@/components/TybeeIcon'
@@ -133,7 +134,7 @@ const steps = [
     body: 'We pre-fill your branch’s flights and rental. Confirm it, edit it, or let us know you haven’t booked yet.',
   },
   {
-    icon: <Vote size={26} />,
+    icon: <TybeeIcon icon="vote" size={30} tone="blue" />,
     title: 'Vote on the fun',
     body: 'Rate each activity from one to five stars. The crowd favorites make the final schedule.',
   },
@@ -233,12 +234,7 @@ function ActivityPreview() {
           <Reveal key={a.id} delay={i * 120}>
             <article className="group overflow-hidden rounded-3xl bg-white shadow-[0_10px_40px_-20px_rgba(11,59,79,0.35)]">
               <div className="relative aspect-[4/3] overflow-hidden">
-                <img
-                  src={publicAsset(a.image)}
-                  alt={a.name}
-                  loading="lazy"
-                  className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
-                />
+                <ActivityPreviewPhoto activity={a} />
                 <span className="absolute top-4 left-4 rounded-full bg-white/90 px-3 py-1 text-sm font-semibold">
                   #{i + 1}
                 </span>
@@ -246,7 +242,7 @@ function ActivityPreview() {
               <div className="p-6">
                 <h3 className="text-lg font-semibold">{a.name}</h3>
                 <p className="mt-1 flex items-center gap-1 text-sm text-sea/60">
-                  <Star size={16} className="fill-sun text-sun" />
+                  <TybeeIcon icon="star" size={18} tone="gold" />
                   {error ? (
                     <span>Live ratings unavailable</span>
                   ) : a.total > 0 ? (
@@ -263,6 +259,58 @@ function ActivityPreview() {
         ))}
       </div>
     </section>
+  )
+}
+
+function ActivityPreviewPhoto({ activity }: { activity: (typeof activities)[number] }) {
+  const { photos, error } = useActivityPhotos(activity.photoFolderId)
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const photo = photos[currentIndex]
+
+  useEffect(() => {
+    setCurrentIndex(0)
+    if (photos.length < 2 || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const interval = window.setInterval(() => {
+      setCurrentIndex((index) => (index + 1) % photos.length)
+    }, 10_000)
+    return () => window.clearInterval(interval)
+  }, [photos])
+
+  return (
+    <>
+      <img
+        key={photo?.id ?? activity.id}
+        src={photo?.imageUrl ?? publicAsset(activity.image)}
+        alt={photo?.name ?? activity.name}
+        loading="lazy"
+        className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
+      />
+      {error && (
+        <span role="status" className="absolute right-2 bottom-2 rounded-lg bg-black/65 px-2 py-1 text-xs text-white">
+          Activity photos unavailable
+        </span>
+      )}
+      {photos.length > 1 && (
+        <>
+          <button
+            type="button"
+            aria-label={`Previous ${activity.name} photo`}
+            onClick={() => setCurrentIndex((index) => (index - 1 + photos.length) % photos.length)}
+            className="absolute top-1/2 left-2 grid h-9 w-9 -translate-y-1/2 place-items-center rounded-full bg-black/50 text-white opacity-0 transition group-hover:opacity-100 focus:opacity-100"
+          >
+            <ChevronLeft size={20} />
+          </button>
+          <button
+            type="button"
+            aria-label={`Next ${activity.name} photo`}
+            onClick={() => setCurrentIndex((index) => (index + 1) % photos.length)}
+            className="absolute top-1/2 right-2 grid h-9 w-9 -translate-y-1/2 place-items-center rounded-full bg-black/50 text-white opacity-0 transition group-hover:opacity-100 focus:opacity-100"
+          >
+            <ChevronRight size={20} />
+          </button>
+        </>
+      )}
+    </>
   )
 }
 

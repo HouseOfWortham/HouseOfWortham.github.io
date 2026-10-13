@@ -1,16 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useCallback, useEffect, useMemo, useState, type FormEvent, type ReactNode } from 'react'
 import type { RealtimeChannel } from '@supabase/supabase-js'
-import {
-  CalendarDays,
-  Check,
-  Clock3,
-  MapPin,
-  Pencil,
-  Plus,
-  Utensils,
-  X,
-} from 'lucide-react'
+import { Check, MapPin, Pencil, Plus, X } from 'lucide-react'
 import { TybeeIcon } from '@/components/TybeeIcon'
 import { AuthButton } from '@/components/AuthButton'
 import { useAuth } from '@/components/AuthProvider'
@@ -375,9 +366,9 @@ function SchedulePage() {
             </div>
             <div className="flex flex-wrap gap-1 rounded-2xl bg-sand p-1" aria-label="Schedule view">
               {([
-                ['meals', <Utensils size={16} />, 'Meals'],
-                ['activities', <CalendarDays size={16} />, 'Activities'],
-                ['combined', <Clock3 size={16} />, 'Combined'],
+                ['meals', <TybeeIcon icon="food" size={20} />, 'Meals'],
+                ['activities', <TybeeIcon icon="calendar" size={20} />, 'Activities'],
+                ['combined', <TybeeIcon icon="clock" size={20} />, 'Combined'],
               ] as const).map(([key, icon, label]) => (
                 <button
                   key={key}
@@ -429,7 +420,7 @@ function SchedulePage() {
                       <p className="text-xs font-semibold tracking-[0.15em] text-white/65 uppercase">Day {day.number}</p>
                       <h2 className="font-display text-2xl font-semibold">{day.label}</h2>
                     </div>
-                    <CalendarDays className="text-white/75" size={22} />
+                    <TybeeIcon icon="calendar" size={26} className="opacity-80" />
                   </header>
                   <div className="space-y-5 p-5">
                     {view === 'meals' && (
@@ -444,7 +435,7 @@ function SchedulePage() {
                                 <div className="flex items-start justify-between gap-3">
                                   <div className="min-w-0">
                                     <p className="flex items-center gap-1.5 text-xs font-bold tracking-wide text-tide uppercase">
-                                      <Clock3 size={13} /> {formatTime(meal.time_slot || defaultMealTimes[meal.meal_type])} · {meal.meal_type}
+                                      <TybeeIcon icon="clock" size={16} /> {formatTime(meal.time_slot || defaultMealTimes[meal.meal_type])} · {meal.meal_type}
                                     </p>
                                     {meal.title ? (
                                       <h3 className="mt-1 font-semibold">{meal.title}</h3>
@@ -503,7 +494,7 @@ function SchedulePage() {
                                   <div className="min-w-0">
                                     <h3 className="font-semibold">{activity.title}</h3>
                                     <div className="mt-2 flex flex-wrap gap-x-3 gap-y-1 text-xs text-sea/60">
-                                      {activity.time_slot && <span className="inline-flex items-center gap-1"><Clock3 size={13} />{activity.time_slot}</span>}
+                                      {activity.time_slot && <span className="inline-flex items-center gap-1"><TybeeIcon icon="clock" size={16} />{activity.time_slot}</span>}
                                       {activity.location && <span className="inline-flex items-center gap-1"><MapPin size={13} />{activity.location}</span>}
                                     </div>
                                   </div>
@@ -549,7 +540,7 @@ function SchedulePage() {
 
                     {view === 'combined' && (
                       <section aria-label={`Day ${day.number} combined timeline`}>
-                        <SectionLabel icon={<Clock3 size={15} />} label="Combined timeline" />
+                        <SectionLabel icon={<TybeeIcon icon="clock" size={18} />} label="Combined timeline" />
                         <div className="space-y-2">
                           {buildTimeline(dayMeals, dayActivities).map((item) => {
                             const isMeal = item.kind === 'meal'
@@ -564,7 +555,7 @@ function SchedulePage() {
                             return (
                               <div key={isMeal ? item.meal.id : item.activity.id} className={`flex gap-3 rounded-2xl border p-3 transition-opacity ${isMeal ? 'border-sea/10 bg-[#fbfcfc]' : 'border-tide/20 bg-tide/5'} ${dimmed ? 'opacity-35' : ''}`}>
                                 <div className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl ${isMeal ? 'bg-sand text-coral' : 'bg-tide/10 text-tide'}`}>
-                                  {isMeal ? <Utensils size={16} /> : <CalendarDays size={16} />}
+                                  {isMeal ? <TybeeIcon icon="food" size={20} /> : <TybeeIcon icon="calendar" size={20} />}
                                 </div>
                                 <div className="min-w-0 flex-1">
                                   <p className="text-xs font-semibold text-sea/50">{time}{isMeal && ` · ${item.meal.meal_type}`}</p>

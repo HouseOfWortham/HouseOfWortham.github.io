@@ -163,7 +163,7 @@ function VotePage() {
                   <div className="mt-5 border-t border-sea/10 pt-4">
                     <div className="flex items-center justify-between text-sm">
                       <span className="flex items-center gap-1.5 font-semibold">
-                        <TybeeIcon icon="star" size={18} />
+                        <TybeeIcon icon="star" size={18} tone="gold" />
                         <span className="tabular-nums">{a.avg.toFixed(2)}</span>
                         <span className="font-normal text-sea/60">family average</span>
                       </span>
