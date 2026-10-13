@@ -9,9 +9,9 @@ import {
   Pencil,
   Plus,
   Utensils,
-  Users,
   X,
 } from 'lucide-react'
+import { TybeeIcon } from '@/components/TybeeIcon'
 import { AuthButton } from '@/components/AuthButton'
 import { useAuth } from '@/components/AuthProvider'
 import { PageHero } from '@/components/PageHero'
@@ -349,7 +349,7 @@ function SchedulePage() {
         <PageHero eyebrow="The reunion plan" title="Trip Schedule" subtitle="Plan the meals, activities, and little moments together." />
         <section className="mx-auto max-w-xl px-5 pb-24 text-center">
           <div className="rounded-3xl bg-white p-8 shadow-sm">
-            <Users className="mx-auto text-tide" size={32} />
+            <TybeeIcon icon="groups" size={40} className="mx-auto" />
             <h2 className="mt-4 text-xl font-semibold">Sign in to see the shared schedule</h2>
             <p className="mt-2 mb-5 text-sea/70">Schedule changes are shared with signed-in reunion members.</p>
             <div className="flex justify-center"><AuthButton /></div>

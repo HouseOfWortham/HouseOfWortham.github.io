@@ -1,12 +1,13 @@
 import { useEffect, useState, type FormEvent } from 'react'
 import { createFileRoute } from '@tanstack/react-router'
-import { BedDouble, ExternalLink, Plane, Save, UserRound } from 'lucide-react'
+import { BedDouble, ExternalLink, Save, UserRound } from 'lucide-react'
 import { PageHero } from '@/components/PageHero'
 import { Reveal } from '@/components/Reveal'
 import { useAuth } from '@/components/AuthProvider'
 import { familyGroups } from '@/data/fixtures'
 import { saveMemberDetails } from '@/lib/memberProfile'
 import type { TravelStatus } from '@/lib/supabase'
+import { TybeeIcon } from '@/components/TybeeIcon'
 
 export const Route = createFileRoute('/profile')({
   head: () => ({ meta: [{ title: 'My Profile · Tybee Tides' }] }),
@@ -199,7 +200,7 @@ function ProfilePage() {
 
               <section className="border-t border-sea/10 pt-8">
                 <div className="mb-5 flex items-center gap-3">
-                  <span className="grid h-10 w-10 place-items-center rounded-2xl bg-foam text-tide"><Plane size={20} /></span>
+                  <span className="grid h-10 w-10 place-items-center rounded-2xl bg-foam text-tide"><TybeeIcon icon="plane" size={24} /></span>
                   <div>
                     <h2 className="font-display text-2xl font-semibold">Travel plans</h2>
                     <p className="text-sm text-sea/60">Share what you know now; you can edit this later.</p>

@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useState } from 'react'
 import { createFileRoute } from '@tanstack/react-router'
-import { BedDouble, Car, ChevronDown, ExternalLink, MapPin, Navigation, Plane, Users, Footprints } from 'lucide-react'
+import { BedDouble, ChevronDown, ExternalLink, MapPin, Navigation } from 'lucide-react'
 import { Reveal } from '@/components/Reveal'
 import { PageHero } from '@/components/PageHero'
 import { AuthButton } from '@/components/AuthButton'
 import { useAuth } from '@/components/AuthProvider'
+import { TybeeIcon } from '@/components/TybeeIcon'
 import { REUNION, faqs, familyGroups } from '@/data/fixtures'
 import { getSupabaseClient } from '@/lib/supabase'
 
@@ -14,10 +15,10 @@ export const Route = createFileRoute('/faq')({
 })
 
 const directions = [
-  { icon: Plane, title: 'From SAV airport', body: 'I-95 S → I-16 E into Savannah, then US-80 E all the way to the island. About 57 minutes.' },
-  { icon: Car, title: 'To Riverwalk Savannah', body: 'Take US-80 W all the way to Evergreen Ave.' },
-  { icon: Footprints, title: 'Tybee Island Beach', body: 'The beach is a short 8 minute walk from the VRBO.' },
-  { icon: Footprints, title: 'Tybee Light Station and Museum', body: 'The Lighthouse and museum is a 7 minute walk. Pretty much right across the street from the VRBO.' },
+  { icon: 'plane', title: 'From SAV airport', body: 'I-95 S → I-16 E into Savannah, then US-80 E all the way to the island. About 57 minutes.' },
+  { icon: 'car', title: 'To Riverwalk Savannah', body: 'Take US-80 W all the way to Evergreen Ave.' },
+  { icon: 'footprints', title: 'Tybee Island Beach', body: 'The beach is a short 8 minute walk from the VRBO.' },
+  { icon: 'footprints', title: 'Tybee Light Station and Museum', body: 'The Lighthouse and museum is a 7 minute walk. Pretty much right across the street from the VRBO.' },
 ]
 
 const vrboUrl = 'https://www.vrbo.com/4310560'
@@ -171,7 +172,7 @@ function FaqPage() {
                       <p className="text-sm text-sea/60">From {group.homeBase}</p>
                     </div>
                     <span className="rounded-full bg-foam px-3 py-1 text-xs font-semibold text-tide">
-                      <Users size={13} className="mr-1 inline" /> {groupSize} {groupSize === 1 ? 'member' : 'members'}
+                      <TybeeIcon icon="groups" size={15} className="mr-1 align-[-3px]" /> {groupSize} {groupSize === 1 ? 'member' : 'members'}
                     </span>
                   </div>
                   <div className="mt-6">
@@ -225,7 +226,7 @@ function FaqPage() {
               {directions.map((d) => (
                 <div key={d.title} className="flex gap-4">
                   <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-white/10 text-sun">
-                    <d.icon size={20} />
+                    <TybeeIcon icon={d.icon} size={24} />
                   </span>
                   <div>
                     <p className="font-semibold">{d.title}</p>

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Star } from 'lucide-react'
+import { TybeeIcon } from '@/components/TybeeIcon'
 
 const labels = ['Not for me', 'Maybe', 'Sounds fun', 'Really want to', 'Can’t miss it!']
 
@@ -43,12 +43,12 @@ export function StarRating({
             }}
             className="rounded-md p-0.5 transition-transform hover:scale-110 focus-visible:outline-2 focus-visible:outline-tide disabled:cursor-wait disabled:opacity-60"
           >
-            <Star
+            <TybeeIcon
               key={popped === n ? `pop-${value}` : n}
+              icon="star"
               size={30}
-              strokeWidth={1.6}
-              className={`transition-colors ${popped === n ? 'animate-pop' : ''} ${
-                n <= shown ? 'fill-sun text-sun' : 'text-sea/25'
+              className={`transition-all ${popped === n ? 'animate-pop' : ''} ${
+                n <= shown ? 'opacity-100' : 'opacity-30 grayscale'
               }`}
             />
           </button>

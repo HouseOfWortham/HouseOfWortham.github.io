@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useEffect, useMemo, useState } from 'react'
-import { CalendarDays, Check, ChevronLeft, ChevronRight, Star, Users } from 'lucide-react'
+import { CalendarDays, Check, ChevronLeft, ChevronRight } from 'lucide-react'
 import { Reveal } from '@/components/Reveal'
 import { StarRating } from '@/components/StarRating'
 import { PageHero } from '@/components/PageHero'
@@ -10,6 +10,7 @@ import { activities, averageRating, publicAsset, type Activity } from '@/data/fi
 import { saveActivityVote } from '@/lib/activityVotes'
 import { useActivityVotes } from '@/hooks/useActivityVotes'
 import { useActivityPhotos } from '@/hooks/useActivityPhotos'
+import { TybeeIcon } from '@/components/TybeeIcon'
 
 export const Route = createFileRoute('/vote')({
   head: () => ({ meta: [{ title: 'Vote on Activities · Tybee Tides' }] }),
@@ -162,12 +163,12 @@ function VotePage() {
                   <div className="mt-5 border-t border-sea/10 pt-4">
                     <div className="flex items-center justify-between text-sm">
                       <span className="flex items-center gap-1.5 font-semibold">
-                        <Star size={16} className="fill-sun text-sun" />
+                        <TybeeIcon icon="star" size={18} />
                         <span className="tabular-nums">{a.avg.toFixed(2)}</span>
                         <span className="font-normal text-sea/60">family average</span>
                       </span>
                       <span className="flex items-center gap-1 text-sea/60">
-                        <Users size={14} /> {a.total} votes
+                        <TybeeIcon icon="groups" size={16} /> {a.total} votes
                       </span>
                     </div>
                     <Distribution counts={a.counts} total={a.total} />

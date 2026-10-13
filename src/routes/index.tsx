@@ -1,6 +1,6 @@
 import { Link, createFileRoute } from '@tanstack/react-router'
 import { useEffect, useRef, useState } from 'react'
-import { ArrowRight, Camera, CheckCircle2, ExternalLink, Plane, Star, Users, Vote } from 'lucide-react'
+import { ArrowRight, Camera, CheckCircle2, ExternalLink, Star, Vote } from 'lucide-react'
 import { Reveal } from '@/components/Reveal'
 import { Waves } from '@/components/Waves'
 import { AuthButton } from '@/components/AuthButton'
@@ -15,6 +15,7 @@ import {
 import { useActivityVotes } from '@/hooks/useActivityVotes'
 import { useGoogleDrivePhotos } from '@/hooks/useGoogleDrivePhotos'
 import { getCurrentTripFolderUrl, type GoogleDrivePhoto } from '@/lib/googleDrivePhotos'
+import { TybeeIcon } from '@/components/TybeeIcon'
 
 export const Route = createFileRoute('/')({
   component: Home,
@@ -122,12 +123,12 @@ function Countdown() {
 
 const steps = [
   {
-    icon: Users,
+    icon: <TybeeIcon icon="groups" size={26} />,
     title: 'Sign in & pick your branch',
     body: 'One tap with Google, then tell us which side of the family tree you’re representing.',
   },
   {
-    icon: Plane,
+    icon: <TybeeIcon icon="plane" size={26} />,
     title: 'Confirm your travel',
     body: 'We pre-fill your branch’s flights and rental. Confirm it, edit it, or let us know you haven’t booked yet.',
   },
@@ -153,7 +154,7 @@ function HowItWorks() {
             <div className="group h-full rounded-3xl bg-white p-8 shadow-[0_10px_40px_-20px_rgba(11,59,79,0.35)] transition hover:-translate-y-1">
               <div className="flex items-center justify-between">
                 <span className="grid h-14 w-14 place-items-center rounded-2xl bg-foam text-tide transition group-hover:rotate-6">
-                  <s.icon size={26} />
+                  {s.icon}
                 </span>
                 <span className="font-display text-5xl text-shell">0{i + 1}</span>
               </div>
