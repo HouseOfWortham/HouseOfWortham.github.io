@@ -6,6 +6,7 @@ const iconPaths = {
   footprints: '/Tybee_Icons/Icon_FeetBeachy.ico',
   groups: '/Tybee_Icons/Icon_Groups.ico',
   star: '/Tybee_Icons/Icon_Vote_Option_1_Star.ico',
+  bed: '/Tybee_Icons/Icon_Bed.ico',
 } as const
 
 export function TybeeIcon({

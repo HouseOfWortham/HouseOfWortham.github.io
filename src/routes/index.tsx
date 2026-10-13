@@ -133,7 +133,7 @@ const steps = [
     body: 'We pre-fill your branch’s flights and rental. Confirm it, edit it, or let us know you haven’t booked yet.',
   },
   {
-    icon: Vote,
+    icon: <Vote size={26} />,
     title: 'Vote on the fun',
     body: 'Rate each activity from one to five stars. The crowd favorites make the final schedule.',
   },

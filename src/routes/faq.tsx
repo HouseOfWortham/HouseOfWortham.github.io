@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { createFileRoute } from '@tanstack/react-router'
-import { BedDouble, ChevronDown, ExternalLink, MapPin, Navigation } from 'lucide-react'
+import { ChevronDown, ExternalLink, MapPin, Navigation } from 'lucide-react'
 import { Reveal } from '@/components/Reveal'
 import { PageHero } from '@/components/PageHero'
 import { AuthButton } from '@/components/AuthButton'
@@ -111,7 +111,7 @@ function FaqPage() {
           <div className="mt-6 rounded-3xl bg-white p-7 shadow-[0_10px_40px_-20px_rgba(11,59,79,0.35)] sm:p-9">
             <div className="flex items-start gap-4">
               <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-foam text-tide">
-                <BedDouble size={24} />
+                <TybeeIcon icon="bed" size={30} />
               </span>
               <div>
                 <h3 className="font-display text-2xl font-semibold">Historic 3 Unit Beach House for Families</h3>
