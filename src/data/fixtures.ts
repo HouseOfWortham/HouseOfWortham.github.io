@@ -34,8 +34,8 @@ export type FamilyGroup = {
 export const familyGroups: FamilyGroup[] = [
   { id: 1, groupName: 'The Hambelton Homestead', homeBase: 'Boise, ID', color: '#ff7a59', members: 2 },
   { id: 2, groupName: 'The Badger Borough', homeBase: 'Boise, ID', color: '#1f9e9a', members: 9 },
-  { id: 3, groupName: 'The Treasure Valley Hunts', homeBase: 'Boise, ID', color: '#f2b544', members: 5 },
-  { id: 4, groupName: 'The Marevelous McBrides', homeBase: 'Richmond, VA', color: '#3d6fb6', members: 3 },
+  { id: 3, groupName: 'The Hunt Halls', homeBase: 'Boise, ID', color: '#f2b544', members: 5 },
+  { id: 4, groupName: 'The McBride Manor', homeBase: 'Richmond, VA', color: '#3d6fb6', members: 3 },
   { id: 5, groupName: 'The Wortham Wing', homeBase: 'Charlotte, NC', color: '#903db6', members: 8 },
 ]
 
